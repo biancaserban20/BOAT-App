@@ -11,7 +11,6 @@ public class Owners {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
     private String idAccount;
     private String idAdmin;
     private String firstName;
@@ -19,6 +18,7 @@ public class Owners {
     private int age;
     private String passportNo;
     private String address;
+    private String accepted;
 
     public Owners(String id, String idAccount, String idAdmin, String firstName, String lastName, int age, String passportNo, String address) {
         this.id = id;
@@ -29,6 +29,17 @@ public class Owners {
         this.age = age;
         this.passportNo = passportNo;
         this.address = address;
+        this.accepted = "false";
+    }
+
+    public Owners(String idAccount) {
+        this.idAccount = idAccount;
+        this.firstName = null;
+        this.lastName = null;
+        this.age = 0;
+        this.passportNo = null;
+        this.address = null;
+        this.accepted = "false";
     }
 
     public String getId() {

@@ -23,4 +23,14 @@ public class OwnerServiceImpl implements OwnerService {
     public void deleteOwner(Owners owner) {
         ownersRepository.delete(owner);
     }
+
+    @Override
+    public int no_of_owners() {
+        return (int) ownersRepository.count();
+    }
+
+    @Override
+    public Owners findByAccountId(String id) {
+        return ownersRepository.findByAccountId(id);
+    }
 }

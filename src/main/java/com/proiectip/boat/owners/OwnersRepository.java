@@ -8,9 +8,10 @@ import java.util.List;
 @Repository
 public interface OwnersRepository extends MongoRepository<Owners, String>{
 
-    @Query("{username:'?0'}")
-    Owners findItemByUsername(String username);
-
     @Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
     List<Owners> findAll(String category);
+
+    public long count();
+
+    Owners findByAccountId(String id);
 }

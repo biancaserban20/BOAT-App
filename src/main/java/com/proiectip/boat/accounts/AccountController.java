@@ -1,5 +1,7 @@
 package com.proiectip.boat.accounts;
 
+import com.proiectip.boat.owners.OwnerService;
+import com.proiectip.boat.owners.Owners;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private OwnerService ownerService;
+
     // for SIGN UP
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Accounts account){
@@ -27,7 +32,20 @@ public class AccountController {
 
         // altfel, adaugam contul
         accountService.saveAccount(account);
+
+        // dacă contul este de tip owner, adăugăm și owner-ul
+        if(account.getRole().equals("Owner")) {
+            Owners owner;
+            owner = new Owners(account.getId());
+            ownerService.saveOwner(owner);
+        }
+        else if(account.getRole().equals("Client")) {} // de adaugat clientul cand il fac
+
         return new ResponseEntity<>("Account added successfully!", HttpStatus.OK);
+    }
+
+    private String toString(int i) {
+        return "i";
     }
 
     // for LOG IN
@@ -65,9 +83,13 @@ public class AccountController {
             String username = map.get("username");
 
             if(accountService.findByUsername(username) != null) {
+                Accounts account = accountService.findByUsername(username);
                 accountService.deleteAccount(accountService.findByUsername(username));
+                ownerService.deleteOwner(ownerService.findByAccountId(account.getId()));
+
                 return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
             }
+            // else pentru client
             return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 

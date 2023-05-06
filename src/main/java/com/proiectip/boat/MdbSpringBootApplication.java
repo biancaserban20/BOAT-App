@@ -45,11 +45,6 @@ public class MdbSpringBootApplication implements CommandLineRunner {
         System.out.println(PropertyController.checkOwner("0"));
     }
 
-    private void createOwners() {
-        System.out.println("Data creation started...");
-        ownersRepository.save(new Owners("0", "0", "1", "Tavi", "Radu", 10, "123", "Malul Rosu"));
-
-    }
 
     public void showAllProperties() {
         propertiesRepository.findAll().forEach(prop -> System.out.println(prop.getPropertyDetails()));

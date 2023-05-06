@@ -1,5 +1,5 @@
 package com.proiectip.boat.owners;
-import com.proiectip.boat.accounts.Accounts;
+;
 
 import java.util.List;
 public interface OwnerService {
@@ -7,4 +7,7 @@ public interface OwnerService {
     public List<Owners> getAllOwners();
 
     void deleteOwner(Owners owner);
+    int no_of_owners();
+
+    Owners findByAccountId(String id);
 }
