@@ -15,6 +15,9 @@ public interface AccountsRepository extends MongoRepository<Accounts, String> {
 
     Accounts findByUsernameAndPassword(String username, String password);
 
+    Accounts findByEmail(String email);
+
     public long count();
 
+    Accounts findByUsername(String username);
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/accounts")
@@ -14,16 +15,14 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private AccountsRepository accountsRepository;
-
+    // for SIGN UP
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Accounts account){
         // daca exista email-ul sau username-ul in baza de date, nu se mai adauga
         if(checkEmail(account))
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
 
-        if(checkUsername(account))
+        if(checkUsername(account.getUsername()))
             return new ResponseEntity<>("Username already exists!", HttpStatus.BAD_REQUEST);
 
         // altfel, adaugam contul
@@ -31,69 +30,57 @@ public class AccountController {
         return new ResponseEntity<>("Account added successfully!", HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity< List<Accounts>> list(){
-        return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
-    }
-
+    // for LOG IN
     @GetMapping("/checkEmailAndPassword")
-    public ResponseEntity<String> check(@RequestBody Accounts accounts){
-        if (accountsRepository.findByUsernameAndPassword(accounts.getUsername(), accounts.getPassword()) != null)
+    public ResponseEntity<String> check(@RequestBody Map<String, String> map){
+        String username = map.get("username");
+        String password = map.get("password");
+        if (accountService.findByUsernameAndPassword(username, password) != null)
             return new ResponseEntity<>("Account found!", HttpStatus.OK);
 
         return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/checkUsernameAndPassword")
-    public boolean checkUsernameAndPassword(@RequestBody Accounts accounts){
-        List<Accounts> list_aux = accountService.getAllAccounts();
-        for (Accounts account : list_aux){
-            if(account.getUsername().equals(accounts.getUsername()) && account.getPassword().equals(accounts.getPassword()))
-                return true;
-        }
-        return false;
+    // return all accounts
+    @GetMapping("/getAll")
+    public ResponseEntity< List<Accounts>> list(){
+        return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
     }
-
 
     public boolean checkEmail(Accounts accounts){
-        List<Accounts> list_aux = accountService.getAllAccounts();
-        for (Accounts account : list_aux){
-            if(account.getEmail().equals(accounts.getEmail()))
-                return true;
-        }
+        if(accountService.findByEmail(accounts.getEmail()) != null)
+            return true;
         return false;
     }
 
-    @GetMapping("/checkUsername")
-    public boolean checkUsername(@RequestBody Accounts accounts){
-        List<Accounts> list_aux = accountService.getAllAccounts();
-        for (Accounts account : list_aux){
-            if(account.getUsername().equals(accounts.getUsername()))
-                return true;
-        }
+    public boolean checkUsername(String username){
+        if(accountService.findByUsername(username) != null)
+            return true;
         return false;
     }
 
-    @DeleteMapping("/delete/{username}")
-    public boolean delete(@PathVariable String username){
-        List<Accounts> list_aux = accountService.getAllAccounts();
-        for (Accounts account : list_aux){
-            if(account.getUsername().equals(username)){
-                accountService.deleteAccount(account);
-                return true;
+    // delete account
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete(@RequestBody Map<String, String> map) {
+            String username = map.get("username");
+
+            if(accountService.findByUsername(username) != null) {
+                accountService.deleteAccount(accountService.findByUsername(username));
+                return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
             }
-        }
-        return false;
+            return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/update/{password}/{username}")
-    public boolean update(@PathVariable String password, @PathVariable String username){
-        List<Accounts> list_aux = accountService.getAllAccounts();
-        for (Accounts account : list_aux){
-            if(account.getUsername().equals(username)){
-                account.setPassword(password);
-                return true;
-            }
+    // change password
+    @PutMapping("/update")
+    public boolean update(@RequestBody Map<String, String> map){
+        String username = map.get("username");
+        String password = map.get("password");
+        if(accountService.findByUsername(username) != null){
+            Accounts account = accountService.findByUsername(username);
+            account.setPassword(password);
+           // accountService.saveAccount(account); => nu stiu daca trebuie save, de testat la change password
+            return true;
         }
         return false;
     }

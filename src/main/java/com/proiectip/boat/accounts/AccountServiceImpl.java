@@ -25,4 +25,19 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Accounts account) {
         accountsRepository.delete(account);
     }
+
+    @Override
+    public Accounts findByUsernameAndPassword(String username, String password) {
+        return accountsRepository.findByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    public Accounts findByEmail(String email) {
+        return accountsRepository.findByEmail(email);
+    }
+
+    @Override
+    public Accounts findByUsername(String username) {
+        return accountsRepository.findByUsername(username);
+    }
 }
