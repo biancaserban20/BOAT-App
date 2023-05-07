@@ -1,5 +1,7 @@
 package com.proiectip.boat.properties;
+import com.proiectip.boat.owners.Owners;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,8 @@ public class Properties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String idOwner;
+//    @DocumentReference
+//    private Owners owner;
     private String name;
     private String location;
     private String description;
@@ -23,9 +26,8 @@ public class Properties {
     public Properties() {
     }
 
-    public Properties(String id, String idOwner, String name, String location, String description, int noOfRooms, String typeOfProperty) {
+    public Properties(String name, String location, String description, int noOfRooms, String typeOfProperty) {
         this.id = id;
-        this.idOwner = idOwner;
         this.name = name;
         this.location = location;
         this.description = description;
@@ -75,14 +77,6 @@ public class Properties {
 
     public String getTypeOfProperty() {
         return typeOfProperty;
-    }
-
-    public String getIdOwner() {
-        return idOwner;
-    }
-
-    public void setIdOwner(String idOwner) {
-        this.idOwner = idOwner;
     }
 
     public void setTypeOfProperty(String typeOfProperty) {

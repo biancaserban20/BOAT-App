@@ -21,15 +21,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 public class MdbSpringBootApplication implements CommandLineRunner {
 
-    @Autowired
-    AccountsRepository accountsRepository;
-
-    @Autowired
-    PropertiesRepository propertiesRepository;
-
-    @Autowired
-    OwnersRepository ownersRepository;
-
 
     public static void main(String[] args) {
         SpringApplication.run(MdbSpringBootApplication.class, args);
@@ -37,43 +28,7 @@ public class MdbSpringBootApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //createAccounts();
-        //createProperties();
-        //createOwners();
-        showAllProperties();
-        System.out.println();
-        System.out.println(PropertyController.checkOwner("0"));
-    }
 
-
-    public void showAllProperties() {
-        propertiesRepository.findAll().forEach(prop -> System.out.println(prop.getPropertyDetails()));
-    }
-
-    public void createProperties() {
-        System.out.println("Data creation started...");
-        propertiesRepository.save(new Properties( "0","0", "Casa lui Tavy", "Bucuresti", "Casa de vacanta", 3, "Casa"));
-        propertiesRepository.save(new Properties("1", "1", "Casa lui Iona", "Bucuresti", "Casa de vacanta", 3, "Casa"));
-        propertiesRepository.save(new Properties("2","2", "Casa lui Bia", "Bucuresti", "Casa de vacanta", 3, "Casa"));
-        propertiesRepository.save(new Properties("3","3", "Casa lui Teo", "Bucuresti", "Casa de vacanta", 3, "Casa"));
-        System.out.println("Data creation complete...");
-
-    }
-    //CREATE
-    public void createAccounts() {
-        System.out.println("Data creation started...");
-        accountsRepository.save(new Accounts("0", "tavy02", "1234", "octavianradu@gmail.com", "admin"));
-        accountsRepository.save(new Accounts("1", "iona03", "ip013!", "iona@gmail", "client"));
-        accountsRepository.save(new Accounts("2", "bia04", "aprilie23", "biancaserban@yahoo.com", "proprietar"));
-        accountsRepository.save(new Accounts("3", "teo05", "acs2020", "teoarde@yahoo.com", "admin"));
-        System.out.println("Data creation complete...");
-    }
-
-    // READ
-    // 1. Show all the data
-    public void showAllAccounts() {
-
-        accountsRepository.findAll().forEach(acc -> System.out.println(acc.getAccountDetails()));
     }
 
 }

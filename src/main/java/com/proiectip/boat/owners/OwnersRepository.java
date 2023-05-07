@@ -13,5 +13,5 @@ public interface OwnersRepository extends MongoRepository<Owners, String>{
 
     public long count();
 
-    Owners findByAccountId(String id);
+    Owners findByIdAccount(String id);
 }

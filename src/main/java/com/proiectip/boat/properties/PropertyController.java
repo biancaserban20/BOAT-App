@@ -23,9 +23,6 @@ public class PropertyController {
         if(checkName(property) && checkID(property))
             return "Property already exists";
 
-        if(!checkOwner(property.getIdOwner()))
-            return "Owner" + property.getIdOwner() + "does not exist";
-
 
         propertyService.saveProperty(property);
         return "New property is added";

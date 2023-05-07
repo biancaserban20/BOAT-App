@@ -31,6 +31,6 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owners findByAccountId(String id) {
-        return ownersRepository.findByAccountId(id);
+        return ownersRepository.findByIdAccount(id);
     }
 }

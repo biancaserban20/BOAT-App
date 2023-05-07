@@ -1,9 +1,13 @@
 package com.proiectip.boat.owners;
+import com.proiectip.boat.properties.Properties;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Document(collection = "owners")
 public class Owners {
@@ -13,6 +17,8 @@ public class Owners {
     private String id;
     private String idAccount;
     private String idAdmin;
+//    @DocumentReference
+//    private List<Properties> properties;
     private String firstName;
     private String lastName;
     private int age;

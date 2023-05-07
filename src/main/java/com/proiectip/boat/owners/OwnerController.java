@@ -1,5 +1,7 @@
 package com.proiectip.boat.owners;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,18 +14,10 @@ public class OwnerController {
     @Autowired
     private OwnerService ownerService;
 
-    public String addOwner(Owners owner){
-        ownerService.saveOwner(owner);
-        return "New owner is added";
+    @GetMapping("/list")
+    public ResponseEntity<List<Owners>> list(){
+        return new ResponseEntity(ownerService.getAllOwners(), HttpStatus.OK);
     }
 
-    public List<Owners> list(){
-        return ownerService.getAllOwners();
-    }
-
-    public String deleteOwner(Owners owner){
-        ownerService.deleteOwner(owner);
-        return "Owner is deleted";
-    }
 
 }
