@@ -1,5 +1,6 @@
 package com.proiectip.boat.properties;
 import com.proiectip.boat.owners.Owners;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -14,8 +15,10 @@ public class Properties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-//    @DocumentReference
-//    private Owners owner;
+
+
+    @DocumentReference
+    private Owners owner;
     private String name;
     private String location;
     private String description;
@@ -26,8 +29,8 @@ public class Properties {
     public Properties() {
     }
 
-    public Properties(String name, String location, String description, int noOfRooms, String typeOfProperty) {
-        this.id = id;
+    public Properties(Owners owner,String name, String location, String description, int noOfRooms, String typeOfProperty) {
+        this.owner = owner;
         this.name = name;
         this.location = location;
         this.description = description;

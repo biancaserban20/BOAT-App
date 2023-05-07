@@ -1,12 +1,12 @@
 package com.proiectip.boat.properties;
-import com.proiectip.boat.owners.Owners;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/properties")
@@ -15,70 +15,49 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
-    @Autowired
-    private static MongoTemplate mongoTemplate;
-
     @PostMapping("/add")
-    public String add(@RequestBody Properties property){
+    public ResponseEntity<String> add(@RequestBody Properties property){
         if(checkName(property) && checkID(property))
-            return "Property already exists";
-
+            return new ResponseEntity<>("Property already exists", HttpStatus.BAD_REQUEST);
 
         propertyService.saveProperty(property);
-        return "New property is added";
-    }
-
-    //@Query ("{idOwner: ?0}")
-    public static boolean checkOwner(String id){
-
-        // query dupa idOwner in Owners
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(id));
-       // System.out.println(mongoTemplate.find(query, Owners.class));
-
-        // daca nu exista niciun owner cu id-ul respectiv, return false
-//        if(list.size() == 0) {
-//            System.out.println("Owner does not exist");
-//            return false;
-//        }
-//
-//        // daca exista, return true
-//        System.out.println("Owner exists");
-        return true;
-
+        return new ResponseEntity<>("Property added successfully", HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<Properties> list(){
-        return propertyService.getAllProperties();
+    public ResponseEntity<List<Properties>> list(){
+        return new ResponseEntity<>(propertyService.getAllProperties(), HttpStatus.OK);
     }
 
-    @GetMapping("/checkName")
-    public boolean checkName(@RequestBody Properties properties){
-        List<Properties> list_aux = propertyService.getAllProperties();
-        for (Properties property : list_aux){
-            if(property.getName().equals(properties.getName()))
-                return true;
-        }
+    @GetMapping("/getByName")
+    public ResponseEntity<Properties> getByName(@RequestBody Map<String, String> map){
+        Properties property = propertyService.findPropertyByName(map.get("name"));
+        return new ResponseEntity<>(property, HttpStatus.OK);
+    }
+
+    @GetMapping("/getByLocation")
+    public ResponseEntity<Properties> getByLocation(@RequestBody Map<String, String> map){
+        Properties property = propertyService.findPropertyByLocation(map.get("location"));
+        return new ResponseEntity<>(property, HttpStatus.OK);
+    }
+
+    public boolean checkName(Properties properties){
+        if(propertyService.findPropertyByName(properties.getName()) != null)
+            return true;
         return false;
     }
 
-    @GetMapping("/checkID")
-    public boolean checkID(@RequestBody Properties properties){
-        List<Properties> list_aux = propertyService.getAllProperties();
-        for (Properties property : list_aux){
-            if(property.getId() == properties.getId())
-                return true;
-        }
+    public boolean checkID(Properties properties){
+        if(propertyService.findPropertyByID(properties.getId()) != null)
+            return true;
         return false;
     }
 
     @DeleteMapping("/delete")
-    public String delete(@RequestBody Properties property){
-        if(!checkName(property) && !checkID(property))
-            return "Property does not exist";
+    public ResponseEntity<String> delete(@RequestBody Map<String, String> map){
+        Properties property = propertyService.findPropertyByName(map.get("name"));
         propertyService.deleteProperty(property);
-        return "Property is deleted";
+        return new ResponseEntity<>("Property deleted successfully", HttpStatus.OK);
     }
 
 }

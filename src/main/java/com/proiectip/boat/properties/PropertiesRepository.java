@@ -12,4 +12,10 @@ public interface PropertiesRepository extends MongoRepository<Properties, String
 
     @Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
     List<Properties> findAll(String category);
+
+    Properties findPropertyByName(String name);
+
+    Properties findPropertyByID(String id);
+
+    Properties findPropertyByLocation(String location);
 }

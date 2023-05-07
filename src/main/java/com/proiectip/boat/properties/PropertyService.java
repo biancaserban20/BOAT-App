@@ -6,4 +6,9 @@ public interface PropertyService {
     public List<Properties> getAllProperties();
 
     void deleteProperty(Properties property);
+
+    Properties findPropertyByName(String name);
+    Properties findPropertyByID(String id);
+
+    Properties findPropertyByLocation(String location);
 }

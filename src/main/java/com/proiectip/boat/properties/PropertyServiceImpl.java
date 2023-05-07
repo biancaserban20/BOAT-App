@@ -22,4 +22,19 @@ public class PropertyServiceImpl implements PropertyService{
     public void deleteProperty(Properties property) {
         propertiesRepository.delete(property);
     }
+
+    @Override
+    public Properties findPropertyByName(String name) {
+        return propertiesRepository.findPropertyByName(name);
+    }
+
+    @Override
+    public Properties findPropertyByID(String id) {
+        return propertiesRepository.findPropertyByID(id);
+    }
+
+    @Override
+    public Properties findPropertyByLocation(String location) {
+        return propertiesRepository.findPropertyByLocation(location);
+    }
 }

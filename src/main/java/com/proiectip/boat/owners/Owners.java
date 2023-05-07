@@ -17,8 +17,8 @@ public class Owners {
     private String id;
     private String idAccount;
     private String idAdmin;
-//    @DocumentReference
-//    private List<Properties> properties;
+    @DocumentReference
+    private List<Properties> properties;
     private String firstName;
     private String lastName;
     private int age;
