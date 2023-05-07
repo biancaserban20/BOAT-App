@@ -1,5 +1,5 @@
 package com.proiectip.boat.owners;
-;
+
 
 import java.util.List;
 public interface OwnerService {
