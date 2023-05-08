@@ -44,15 +44,10 @@ public class AccountController {
         return new ResponseEntity<>("Account added successfully!", HttpStatus.OK);
     }
 
-    private String toString(int i) {
-        return "i";
-    }
-
     // for LOG IN
     @GetMapping("/checkEmailAndPassword")
-    public ResponseEntity<String> check(@RequestBody Map<String, String> map){
-        String username = map.get("username");
-        String password = map.get("password");
+    public ResponseEntity<String> check(@RequestParam(value = "username") String username,
+                                        @RequestParam(value = "password") String password){
         if (accountService.findByUsernameAndPassword(username, password) != null)
             return new ResponseEntity<>("Account found!", HttpStatus.OK);
 
@@ -66,15 +61,11 @@ public class AccountController {
     }
 
     public boolean checkEmail(Accounts accounts){
-        if(accountService.findByEmail(accounts.getEmail()) != null)
-            return true;
-        return false;
+        return accountService.findByEmail(accounts.getEmail()) != null;
     }
 
     public boolean checkUsername(String username){
-        if(accountService.findByUsername(username) != null)
-            return true;
-        return false;
+        return accountService.findByUsername(username) != null;
     }
 
     // delete account
