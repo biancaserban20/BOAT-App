@@ -5,6 +5,7 @@ import { Container, Paper, Button, FormControl, MenuItem, Select, InputLabel, Ic
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import '../App.css';
 import logo from '../resources/logo.png';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
     const paperStyle={padding:'50px 20px', width:600,margin:"20px auto"}
     const[password,setPassword]=useState('')
-    const[email,setEmail]=useState('')
+    const[username,setUsername]=useState('')
     const classes = useStyles();
     const [correct,setCorrect] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -37,20 +38,11 @@ export default function Login() {
       event.preventDefault();
     };
 
-    function isValidEmail(email) {
-      return /\S+@\S+\.\S+/.test(email);
-    }
-
-  // Handling the email change
-  const handleEmail = (e) => {
-    if (!isValidEmail(e.target.value)) {
-      setError('Email is invalid');
-    } else {
-      setError(null);
-      setSubmitted(false);
-    }
-
-    setEmail(e.target.value);
+  // Handling the username change
+  const handleUsername = (e) => {
+    setError(null);
+    setSubmitted(false);
+    setUsername(e.target.value);
   };
  
   // Handling the password change
@@ -61,20 +53,26 @@ export default function Login() {
  
   // Handling the form submission
   const handleClick=(e)=>{
-    e.preventDefault()
-    if (email === '' || password === '' || !isValidEmail(email)) {
+    e.preventDefault();
+    if (username === '' || password === '') {
       setError(true);
     } else {
       setError(false);
-      const account={password,email}
-      console.log(account)
-      fetch("http://localhost:8080/accounts/checkPass")
-      .then(response => {
-        return response.json()
+      const account={username: username, password: password};
+      console.log(account);
+      axios.get("http://localhost:8080/accounts/checkEmailAndPassword", { params: {
+        username: username,
+        password: password
+      },})
+      .then((result) => {
+        console.log(result);
+        console.log("res is", result.data);
+        console.log("res is", result.status);
       })
-      .then(data => {
-            setCorrect(data);
-      })
+      .catch(error => {
+        if (error.response)
+          console.log("error is", error.response.data);
+      });
     }
   };
 
@@ -86,7 +84,7 @@ export default function Login() {
         style={{
           display: submitted ? '' : 'none',
         }}>
-        <h1>User {email} successfully logged in!!</h1>
+        <h1>User {username} successfully logged in!!</h1>
       </div>
     );
   };
@@ -126,9 +124,9 @@ export default function Login() {
 
     <form className={classes.root} noValidate autoComplete="off">
 
-      <TextField required id="outlined-basic" label="Email" variant="outlined" fullWidth
-      value={email}
-      onChange={handleEmail}
+      <TextField required id="outlined-basic" label="Username" variant="outlined" fullWidth
+      value={username}
+      onChange={handleUsername}
       />{error && <h2 style={{color: 'red'}}>{error}</h2>}
 
       {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
