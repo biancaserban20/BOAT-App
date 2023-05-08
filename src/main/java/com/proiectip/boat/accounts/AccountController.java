@@ -71,16 +71,16 @@ public class AccountController {
     // delete account
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam(value = "username") String username) {
-//            String username = map.get("username");
-            System.out.println(username);
             if(accountService.findByUsername(username) != null) {
+                // DE MODIFICAT - stergere (trebuie sters ori client ori proprietar)
                 Accounts account = accountService.findByUsername(username);
-                accountService.deleteAccount(accountService.findByUsername(username));
-                ownerService.deleteOwner(ownerService.findByAccountId(account.getId()));
+                if (account.getRole().equals("Client"))
+                    accountService.deleteAccount(accountService.findByUsername(username));
+                else
+                    ownerService.deleteOwner(ownerService.findByAccountId(account.getId()));
 
                 return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
             }
-            // else pentru client
             return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 
