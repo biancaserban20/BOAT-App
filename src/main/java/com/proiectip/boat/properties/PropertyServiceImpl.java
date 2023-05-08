@@ -30,7 +30,7 @@ public class PropertyServiceImpl implements PropertyService{
 
     @Override
     public Properties findPropertyByID(String id) {
-        return propertiesRepository.findPropertyByID(id);
+        return propertiesRepository.findPropertyByid(id);
     }
 
     @Override

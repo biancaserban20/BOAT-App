@@ -79,9 +79,9 @@ public class AccountController {
 
     // delete account
     @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestBody Map<String, String> map) {
-            String username = map.get("username");
-
+    public ResponseEntity<String> delete(@RequestParam(value = "username") String username) {
+//            String username = map.get("username");
+            System.out.println(username);
             if(accountService.findByUsername(username) != null) {
                 Accounts account = accountService.findByUsername(username);
                 accountService.deleteAccount(accountService.findByUsername(username));

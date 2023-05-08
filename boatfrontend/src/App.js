@@ -7,6 +7,7 @@ import RegisterUser from './components/RegisterUser';
 import Login from './components/Login';
 import Database from './components/Database';
 import logo from './resources/logo.png';
+import AdminHome from './components/AdminHome';
 
 function App() {
   const mystyle = {
@@ -38,6 +39,7 @@ function App() {
         <Route path='/sign-up' element={<RegisterUser/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/database' element={<Database/>} />
+        <Route path='/adminhome' element={<AdminHome/>} />
     </Routes>
     </Router>
   );

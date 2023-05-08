@@ -15,7 +15,7 @@ public interface PropertiesRepository extends MongoRepository<Properties, String
 
     Properties findPropertyByName(String name);
 
-    Properties findPropertyByID(String id);
+    Properties findPropertyByid(String id);
 
     Properties findPropertyByLocation(String location);
 }
