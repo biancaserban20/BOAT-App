@@ -1,6 +1,6 @@
 BOAT - Booking website
 ============
----
+
 
 The system consists of a `RESTful CRUD application`, which is developed using the `Reacts.js` framework, the database will be stored using `MongoDB`, and the backend is implemented using `Java SpringBoot`.
 The server requests are made using the `Axios API`.
@@ -9,7 +9,6 @@ The project was developed as a team project for a 3rd year university course.
 
 User Interface Design in Figma
 ------------
----
 
 In order to have a cohesive style for the user interface, we used `Figma`, collaborative web application for interface design.
 It includes 3 flows, corresponding to the way each type of user ( client, owner and administrator ) will interact with the website.
@@ -18,7 +17,7 @@ It includes 3 flows, corresponding to the way each type of user ( client, owner 
 
 Using the app
 ------------
----
+
 ### Starting the web server on port 8080 (HTTP) ###
 To start the web server, the main of the `com.proiectip.boat.BoatApplication` class needs to be executed.
 ### Running the app ###
@@ -33,7 +32,7 @@ You may also see any lint errors in the console.
 
 References
 ------------
----
+
 1. Documentation
     * [Spring Boot Integration with MongoDB](https://www.mongodb.com/compatibility/spring-boot)
     * [Axios API](https://axios-http.com/docs/api_intro)
