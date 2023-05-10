@@ -11,14 +11,14 @@ App description and functionalities
 ------------
 BOAT is a web application used for booking hotel rooms. There are 3 types of users that can access the app and each one of them has different privileges 
 
-###Functionalities for administrators
+### Functionalities for administrators ###
 
 - Authentication
 - Accept or reject requests to create hotel administrator accounts (owners) 
 - Delete owner or client accounts
 - View all the tables in the database
 
-###Functionalities for owners
+### Functionalities for owners ###
 
 - Account creation
 - Authentication
@@ -28,7 +28,7 @@ BOAT is a web application used for booking hotel rooms. There are 3 types of use
 - Chat with clients
 - Read reviews
 
-###Functionalities for clients
+### Functionalities for clients ###
 - Account creation
 - Authentication
 - Book rooms
