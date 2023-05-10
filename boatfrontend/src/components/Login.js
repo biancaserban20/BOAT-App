@@ -21,7 +21,6 @@ export default function Login() {
     const[password,setPassword]=useState('')
     const[username,setUsername]=useState('')
     const classes = useStyles();
-    const [correct,setCorrect] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState(false);
 

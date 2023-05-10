@@ -22,8 +22,10 @@ public class AccountController {
 
     // for SIGN UP
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Accounts account){
+    public ResponseEntity<String> add(@RequestBody Map<String,String>map){
         // daca exista email-ul sau username-ul in baza de date, nu se mai adauga
+        Accounts account = new Accounts(map.get("username"), map.get("password"), map.get("email"),
+                    map.get("role"), map.get("firstName"), map.get("lastName"));
         if(checkEmail(account))
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
 

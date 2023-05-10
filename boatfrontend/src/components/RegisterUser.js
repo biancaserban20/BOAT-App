@@ -29,9 +29,11 @@ export default function RegisterUser() {
   const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("Client");
   const classes = useStyles();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState({
@@ -67,17 +69,6 @@ export default function RegisterUser() {
     event.preventDefault();
   };
 
-  function isValidRole() {
-    if (role === '') {
-      setError({ ...error, role: "Please choose a role." });
-      return false;
-    } else {
-      setError({ ...error, role: null });
-      setSubmitted(false);
-      return true;
-    }
-  }
-
   function isValidUsername() {
     if (username === "") {
       setError({ ...error, username: "Username is required." });
@@ -90,6 +81,41 @@ export default function RegisterUser() {
       return false;
     } else {
       setError({ ...error, username: null });
+      setSubmitted(false);
+      return true;
+    }
+  }
+
+  function isValidFirstName() {
+    if (firstName === "") {
+      setError({ ...error, firstName: "First Name is required." });
+      return false;
+    } else if (firstName[0] < 'A' || firstName[0] > 'Z' ) {
+      setError({
+        ...error,
+        firstName: "First Name should have a leading capital letter.",
+      });
+      return false;
+    } else {
+      setError({ ...error, firstName: null });
+      setSubmitted(false);
+      return true;
+    }
+  }
+
+
+  function isValidLastName() {
+    if (lastName === "") {
+      setError({ ...error, lastName: "Last Name is required." });
+      return false;
+    } else if (lastName[0] < 'A' || lastName[0] > 'Z' ) {
+      setError({
+        ...error,
+        lastName: "Last Name should have a leading capital letter.",
+      });
+      return false;
+    } else {
+      setError({ ...error, lastName: null });
       setSubmitted(false);
       return true;
     }
@@ -157,6 +183,18 @@ export default function RegisterUser() {
     setSubmitted(false);
   };
 
+  // Handling the first name change
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+    setSubmitted(false);
+  };
+
+  // Handling the last name change
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
+    setSubmitted(false);
+  };
+
   // Handling the password change
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -177,13 +215,13 @@ export default function RegisterUser() {
   // Handling the form submission
   const handleClick = (e) => {
     e.preventDefault();
-    if ( role === "" || !isValidUsername() || !isValidEmail() || !isValidPassword() || !isValidConfirmPassword()) {
+    if ( role === "" || !isValidUsername() || !isValidEmail() || !isValidPassword() || !isValidConfirmPassword() ||  !isValidLastName() || !isValidFirstName()) {
       setError({...error, err: "Please fill in all the fields."});
       setSubmitted(false);
     } else {
-      const account =  {username, password, email, role };
+      const account =  {username, password, email, firstName, lastName, role };
       console.log(account);
-      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role})
+      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role, firstName: firstName, lastName:lastName})
         .then((result) => {
           console.log(result);
           console.log("res is", result.data);
@@ -217,7 +255,7 @@ export default function RegisterUser() {
     <Container style={mystyle1}>
       <div className="App" style={mystyle}>
         <Paper elevation={3} style={paperStyle}>
-          <h1 style={{ color: "black" }}>Sign up</h1>
+          <h1 style={{ color: "black", fontFamily: "Poppins"}}>Create an account</h1>
 
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl
@@ -227,24 +265,12 @@ export default function RegisterUser() {
               fullWidth
             >
               <InputLabel>Role</InputLabel>
-              <Select label="Role--" value={role} onChange={handleRole} onBlur={isValidRole}>
+              <Select label="Role--" value={role} onChange={handleRole}>
                 <MenuItem value={"Proprietar"}>Owner</MenuItem>
                 <MenuItem value={"Client"}>Client</MenuItem>
               </Select>
             </FormControl>
             
-            <TextField
-              required
-              id="outlined-basic"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              value={email}
-              onChange={handleEmail}
-              onBlur={isValidEmail}
-            />
-            {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
-
             <TextField
               required
               id="outlined-basic"
@@ -256,6 +282,42 @@ export default function RegisterUser() {
               onBlur={isValidUsername}
             />
             {error?.username && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.username}</h2>}
+
+            <TextField
+              required
+              id="outlined-basic"
+              label="First Name"
+              variant="outlined"
+              fullWidth
+              value={firstName}
+              onChange={handleFirstName}
+              onBlur={isValidFirstName}
+            />
+            {error?.firstName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.firstName}</h2>}
+
+            <TextField
+              required
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              fullWidth
+              value={lastName}
+              onChange={handleLastName}
+              onBlur={isValidLastName}
+            />
+            {error?.lastName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.lastName}</h2>}
+
+            <TextField
+              required
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={handleEmail}
+              onBlur={isValidEmail}
+            />
+            {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
 
             {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
             {/* <InputLabel>Enter your Password</InputLabel> */}

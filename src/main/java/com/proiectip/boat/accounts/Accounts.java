@@ -10,18 +10,25 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private String email;
     private String role;
 
     // private String phone;
 
-    public Accounts(String id, String username, String password, String email, String role) {
+    public Accounts(String username, String password, String email, String role, String firstName, String lastName) {
         this.id = id;
         this.username = username;
+        this.lastName = lastName;
+        this.firstName = firstName;
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    public Accounts() {
     }
 
     public String getId() {
@@ -39,6 +46,15 @@ public class Accounts {
     public String getEmail() {
         return email;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
 
     public String getRole() {
         return role;
