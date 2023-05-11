@@ -6,36 +6,31 @@ import logo from '../resources/logo.png';
 
 export default function Home() {
     const mystyle = {
-        float: 'right',
-        padding: "10px",
-    };
-    const mystyle1 = {
         float: 'center',
-        padding: "10px",
+        marginLeft: "150px",
+        padding: "100px",
     };
-    const mystyle2 = {
-        float: 'left',
-        padding: "10px",
-    }
 
     return(
-    <Container style={mystyle1} >
-        
-        <div className="App" style={mystyle} >
+    <Container style={mystyle}>
+    <div className="box">
+        <div className="box2">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'></link>
+        <div className = 'welcome' style={{fontSize: 75, fontFamily: 'Poppins', fontWeight:'bolder', color: "#055169"}}><b>Find your next adventure</b></div>
+        <div className = 'description' style={{fontSize: 25, fontFamily: 'Poppins', color: "#017F8D"}}>Search deals on hotels, cruises, and much more</div>
+        <div className="App">
             <a href="./sign-up">
-                <Button variant='contained' size='large' color="primary">Sign Up</Button>
+                <Button variant='contained' size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#ECB920", color: "white", textTransform: 'none'}}>Sign up</Button>
             </a>
             <a href="./login">
-                <Button variant='contained' size='large' style={{backgroundColor: "white", marginLeft: "10px"}}>Login</Button>
+                <Button variant='contained' size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#E17E23", color: "white", marginLeft: "10px", textTransform: 'none'}}>Login</Button>
             </a>
         </div>
-        <div style={mystyle2}>
-            <img src ={logo} className='App-logo' alt='logo' />
         </div>
-        <h1 className = 'welcome'>Welcome on board!</h1>
-        <div className = 'description'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div className='App-logo'>
+            <img weight="100%" height="100%" src ={logo} alt='logo' />
         </div>
-     </Container>  
+        </div> 
+     </Container>
     );
 }

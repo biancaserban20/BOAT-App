@@ -35,7 +35,7 @@ function App() {
     // </Container>
     <Router>
     <Routes>
-        <Route exact path='/'  element={<Home />} />
+        <Route exact path='/'  element={<Home/>} />
         <Route path='/sign-up' element={<RegisterUser/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/database' element={<Database/>} />
