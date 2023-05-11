@@ -65,7 +65,8 @@ References
 
 1. Documentation
     * [Spring Boot Integration with MongoDB](https://www.mongodb.com/compatibility/spring-boot)
+    * [CSS Documentation and Tutorials](https://developer.mozilla.org/en-US/docs/Web/CSS)
     * [Axios API](https://axios-http.com/docs/api_intro)
 2. Resources
     * [README Formatting Example](https://gist.github.com/rt2zz/e0a1d6ab2682d2c47746950b84c0b6ee)
-    * [Full Stack Web Application using Spring Boot and React](https://www.youtube.com/watch?v=O_XL9oQ1_To&t=902s)
+    * [Full Stack Web Application using Spring Boot and React](https://www.youtube.com/watch?v=O_XL9oQ1_To&t)
