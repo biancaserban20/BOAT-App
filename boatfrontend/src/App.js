@@ -8,6 +8,11 @@ import Login from './components/Login';
 import Database from './components/Database';
 import logo from './resources/logo.png';
 import AdminHome from './components/AdminHome';
+import UserHome from './components/ClientHome';
+import OwnerHome from './components/OwnerHome';
+
+// Save username globally
+window.name = null;
 
 function App() {
   const mystyle = {
@@ -25,14 +30,6 @@ function App() {
 
 
   return (
-    // <Container style={mystyle1} >
-    // <div className="App" style={mystyle} >
-    //   <RegisterUser/>
-    // </div>
-    // <div style={mystyle2}>
-    //   <img src ={logo} className='App-logo' alt='logo' />
-    // </div>
-    // </Container>
     <Router>
     <Routes>
         <Route exact path='/'  element={<Home/>} />
@@ -40,6 +37,8 @@ function App() {
         <Route path='/login' element={<Login/>} />
         <Route path='/database' element={<Database/>} />
         <Route path='/adminhome' element={<AdminHome/>} />
+        <Route path='/ownerhome' element={<OwnerHome/>} />
+        <Route path='/clienthome' element={<UserHome/>} />
     </Routes>
     </Router>
   );

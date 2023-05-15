@@ -56,6 +56,11 @@ public class AccountController {
         return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/getRole")
+    public ResponseEntity<String> role(@RequestParam(value = "username") String username){
+        return new ResponseEntity<>(accountService.findByUsername(username).getRole(), HttpStatus.OK);
+    }
+
     // return all accounts
     @GetMapping("/getAll")
     public ResponseEntity< List<Accounts>> list(){

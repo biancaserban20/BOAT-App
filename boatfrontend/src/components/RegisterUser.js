@@ -266,7 +266,7 @@ export default function RegisterUser() {
             >
               <InputLabel>Role</InputLabel>
               <Select label="Role--" value={role} onChange={handleRole}>
-                <MenuItem value={"Proprietar"}>Owner</MenuItem>
+                <MenuItem value={"Owner"}>Owner</MenuItem>
                 <MenuItem value={"Client"}>Client</MenuItem>
               </Select>
             </FormControl>
