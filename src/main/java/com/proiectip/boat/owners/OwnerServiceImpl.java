@@ -1,4 +1,5 @@
 package com.proiectip.boat.owners;
+import com.proiectip.boat.accounts.Accounts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,12 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owners findByAccountId(String id) {
-        return ownersRepository.findByIdAccount(id);
+    public Owners findByAccount(Accounts account) {
+        return ownersRepository.findByAccount(account);
     }
+
+//    @Override
+//    public Owners findById(String idOwner) {
+//        return ownersRepository.findOwnerById(idOwner);
+//    }
 }

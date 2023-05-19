@@ -1,12 +1,16 @@
 package com.proiectip.boat.owners;
+import com.proiectip.boat.accounts.Accounts;
 import com.proiectip.boat.properties.Properties;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "owners")
@@ -15,8 +19,10 @@ public class Owners {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String idAccount;
+    @DocumentReference
+    private Accounts account;
     private String idAdmin;
+
     @DocumentReference
     private List<Properties> properties;
     private String firstName;
@@ -26,9 +32,8 @@ public class Owners {
     private String address;
     private String accepted;
 
-    public Owners(String id, String idAccount, String idAdmin, String firstName, String lastName, int age, String passportNo, String address) {
-        this.id = id;
-        this.idAccount = idAccount;
+    public Owners(Accounts account, String idAdmin, String firstName, String lastName, int age, String passportNo, String address) {
+        this.account = account;
         this.idAdmin = idAdmin;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,24 +41,26 @@ public class Owners {
         this.passportNo = passportNo;
         this.address = address;
         this.accepted = "false";
+        this.properties = new ArrayList<>();
     }
 
-    public Owners(String idAccount) {
-        this.idAccount = idAccount;
+    public Owners(Accounts account) {
+        this.account = account;
         this.firstName = null;
         this.lastName = null;
         this.age = 0;
         this.passportNo = null;
         this.address = null;
         this.accepted = "false";
+        this.properties = new ArrayList<>();
     }
 
     public String getId() {
         return id;
     }
 
-    public String getIdAccount() {
-        return idAccount;
+    public Accounts getAccount() {
+        return account;
     }
 
     public String getIdAdmin() {
@@ -84,10 +91,6 @@ public class Owners {
         this.id = id;
     }
 
-    public void setIdAccount(String idProperty) {
-        this.idAccount = idProperty;
-    }
-
     public void setIdAdmin(String idAdmin) {
         this.idAdmin = idAdmin;
     }
@@ -115,7 +118,7 @@ public class Owners {
     public String getOwnerDetails(){
         return "Owner{" +
                 "id=" + this.getId() +
-                ", idProperty='" + this.getIdAccount() + '\'' +
+                ", idProperty='" + this.getAccount() + '\'' +
                 ", idAdmin='" + this.getIdAdmin() + '\'' +
                 ", firstName='" + this.getFirstName() + '\'' +
                 ", lastName='" + this.getLastName() + '\'' +

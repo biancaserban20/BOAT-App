@@ -36,9 +36,9 @@ public class AccountController {
         accountService.saveAccount(account);
 
         // dacă contul este de tip owner, adăugăm și owner-ul
-        if(account.getRole().equals("Owner")) {
+        if(account.getRole().equals("Proprietar")) {
             Owners owner;
-            owner = new Owners(account.getId());
+            owner = new Owners(account, "1", account.getFirstName(), account.getLastName(), 25, "1234", "Moreni");
             ownerService.saveOwner(owner);
         }
         else if(account.getRole().equals("Client")) {} // de adaugat clientul cand il fac
@@ -79,7 +79,7 @@ public class AccountController {
                 if (account.getRole().equals("Client"))
                     accountService.deleteAccount(accountService.findByUsername(username));
                 else
-                    ownerService.deleteOwner(ownerService.findByAccountId(account.getId()));
+                    ownerService.deleteOwner(ownerService.findByAccount(account));
 
                 return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
             }

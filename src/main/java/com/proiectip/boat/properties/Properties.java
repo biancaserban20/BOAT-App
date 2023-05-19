@@ -16,7 +16,6 @@ public class Properties {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-
     @DocumentReference
     private Owners owner;
     private String name;
@@ -25,10 +24,6 @@ public class Properties {
     private int noOfRooms;
     private String typeOfProperty;
 
-
-    public Properties() {
-    }
-
     public Properties(Owners owner,String name, String location, String description, int noOfRooms, String typeOfProperty) {
         this.owner = owner;
         this.name = name;
@@ -36,6 +31,14 @@ public class Properties {
         this.description = description;
         this.noOfRooms = noOfRooms;
         this.typeOfProperty = typeOfProperty;
+    }
+
+    public Owners getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owners owner) {
+        this.owner = owner;
     }
 
     public String getId() {

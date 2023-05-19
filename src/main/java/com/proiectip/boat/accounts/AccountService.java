@@ -1,6 +1,7 @@
 package com.proiectip.boat.accounts;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountService {
     public Accounts saveAccount(Accounts account);
@@ -13,4 +14,6 @@ public interface AccountService {
     Accounts findByEmail(String email);
 
     Accounts findByUsername(String username);
+
+    Accounts findById(String idAccount);
 }
