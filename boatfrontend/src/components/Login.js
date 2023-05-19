@@ -6,6 +6,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import '../App.css';
 import logo from '../resources/logo.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,12 +18,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+    const navigate = useNavigate();
     const paperStyle={padding:'50px 20px', width:600,margin:"20px auto"}
-    const[password,setPassword]=useState('')
-    const[username,setUsername]=useState('')
+    const[password,setPassword]=useState("");
+    const[username,setUsername]=useState("");
+    const[role,setRole]=useState("");
     const classes = useStyles();
     const [submitted, setSubmitted] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState({
+      username: null,
+      password: null,
+      submit: null,
+    });
 
     const [values, setValues] = React.useState({
       password: "",
@@ -39,7 +46,6 @@ export default function Login() {
 
   // Handling the username change
   const handleUsername = (e) => {
-    setError(null);
     setSubmitted(false);
     setUsername(e.target.value);
   };
@@ -54,9 +60,8 @@ export default function Login() {
   const handleClick=(e)=>{
     e.preventDefault();
     if (username === '' || password === '') {
-      setError(true);
+      setError({ ...error, submit: "Username and password are required." });
     } else {
-      setError(false);
       const account={username: username, password: password};
       console.log(account);
       axios.get("http://localhost:8080/accounts/checkEmailAndPassword", { params: {
@@ -67,38 +72,32 @@ export default function Login() {
         console.log(result);
         console.log("res is", result.data);
         console.log("res is", result.status);
+        window.name = username;
+        const account={username: username, password: password};
+        console.log(account);
+        axios.get("http://localhost:8080/accounts/getRole", { params: {
+        username: username
+        },})
+        .then((result) => {
+          console.log(result);
+          console.log("res is", result.data);
+          console.log("res is", result.status);  
+          setRole(result.data);
+          if(result.data === "Admin")
+            navigate("/adminhome");
+          if(result.data === "Owner")
+            navigate("/ownerhome");
+          if(result.data === "Client")
+            navigate("/clienthome");
+      });
       })
       .catch(error => {
-        if (error.response)
+        if (error.response){
           console.log("error is", error.response.data);
+          setError({ ...error, submit: "Username and password are wrong." });
+        }
       });
     }
-  };
-
-  // Showing success message
-  const successMessage = () => {
-    return (
-      <div
-        className="success"
-        style={{
-          display: submitted ? '' : 'none',
-        }}>
-        <h1>User {username} successfully logged in!!</h1>
-      </div>
-    );
-  };
- 
-  // Showing error message if error is true
-  const errorMessage = () => {
-    return (
-      <div
-        style={{
-          display: error ? '' : 'none',
-          color: 'red'
-        }}>
-        <h1>Please enter all the fields correctly</h1>
-      </div>
-    );
   };
 
   const mystyle = {
@@ -126,8 +125,7 @@ export default function Login() {
       <TextField required id="outlined-basic" label="Username" variant="outlined" fullWidth
       value={username}
       onChange={handleUsername}
-      />{error && <h2 style={{color: 'red'}}>{error}</h2>}
-
+      />
       {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
       {/* <InputLabel>Enter your Password</InputLabel> */}
       <TextField required id="outlined-basic" label="Password" variant="outlined" fullWidth
@@ -145,14 +143,12 @@ export default function Login() {
         }}
         
       />
-      
+      {error?.submit && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.submit}</h2>}
+
       <Button variant="contained" color="primary" onClick={handleClick}>
       Submit
       </Button>
-    <div>
-        {errorMessage()}
-        {successMessage()}
-    </div>
+
     </form>
    
     </Paper>
