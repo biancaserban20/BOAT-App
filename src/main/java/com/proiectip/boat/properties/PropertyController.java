@@ -1,4 +1,8 @@
 package com.proiectip.boat.properties;
+import com.proiectip.boat.owners.OwnerController;
+import com.proiectip.boat.owners.OwnerService;
+import com.proiectip.boat.owners.Owners;
+import com.proiectip.boat.owners.OwnersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
@@ -7,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/properties")
@@ -15,14 +20,8 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Properties property){
-        if(checkName(property) && checkID(property))
-            return new ResponseEntity<>("Property already exists", HttpStatus.BAD_REQUEST);
-
-        propertyService.saveProperty(property);
-        return new ResponseEntity<>("Property added successfully", HttpStatus.OK);
-    }
+    @Autowired
+    private OwnersRepository ownersRepository;
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Properties>> list(){

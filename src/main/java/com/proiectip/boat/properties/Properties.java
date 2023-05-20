@@ -15,16 +15,14 @@ public class Properties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
-    @DocumentReference
-    private Owners owner;
+    private String owner;
     private String name;
     private String location;
     private String description;
     private int noOfRooms;
     private String typeOfProperty;
 
-    public Properties(Owners owner,String name, String location, String description, int noOfRooms, String typeOfProperty) {
+    public Properties(String owner,String name, String location, String description, int noOfRooms, String typeOfProperty) {
         this.owner = owner;
         this.name = name;
         this.location = location;
@@ -33,11 +31,11 @@ public class Properties {
         this.typeOfProperty = typeOfProperty;
     }
 
-    public Owners getOwner() {
-        return owner;
+    public String getOwner() {
+        return this.owner;
     }
 
-    public void setOwner(Owners owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 

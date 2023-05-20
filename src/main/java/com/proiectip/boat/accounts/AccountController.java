@@ -1,5 +1,7 @@
 package com.proiectip.boat.accounts;
 
+import com.proiectip.boat.admins.AdminRepository;
+import com.proiectip.boat.admins.Admins;
 import com.proiectip.boat.owners.OwnerService;
 import com.proiectip.boat.owners.Owners;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class AccountController {
     @Autowired
     private OwnerService ownerService;
 
+    @Autowired
+    private AdminRepository adminRepository;
+
     // for SIGN UP
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Map<String,String>map){
@@ -36,10 +41,15 @@ public class AccountController {
         accountService.saveAccount(account);
 
         // dacă contul este de tip owner, adăugăm și owner-ul
-        if(account.getRole().equals("Proprietar")) {
-            Owners owner;
-            owner = new Owners(account, "1", account.getFirstName(), account.getLastName(), 25, "1234", "Moreni");
+        if(account.getRole().equals("Owner")) {
+            int age = Integer.parseInt(map.get("age"));
+            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
+                    map.get("passportNo"), map.get("address"));
             ownerService.saveOwner(owner);
+        }
+        else if(account.getRole().equals("Admin")) {
+            Admins admin = new Admins(account, account.getFirstName(), account.getLastName());
+            adminRepository.save(admin);
         }
         else if(account.getRole().equals("Client")) {} // de adaugat clientul cand il fac
 

@@ -64,9 +64,6 @@ public class Accounts {
         this.password = password;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
     public String getAccountDetails() {
         return "Account{" +
                 "id=" + this.getId() +

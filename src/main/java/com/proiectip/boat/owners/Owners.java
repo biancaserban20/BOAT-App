@@ -22,16 +22,17 @@ public class Owners {
     @DocumentReference
     private Accounts account;
     private String idAdmin;
-
-    @DocumentReference
-    private List<Properties> properties;
+    private List<String> properties;
     private String firstName;
     private String lastName;
     private int age;
     private String passportNo;
     private String address;
-    private String accepted;
+    private boolean accepted;
 
+    public Owners(){
+
+    }
     public Owners(Accounts account, String idAdmin, String firstName, String lastName, int age, String passportNo, String address) {
         this.account = account;
         this.idAdmin = idAdmin;
@@ -40,7 +41,7 @@ public class Owners {
         this.age = age;
         this.passportNo = passportNo;
         this.address = address;
-        this.accepted = "false";
+        this.accepted = false;
         this.properties = new ArrayList<>();
     }
 
@@ -51,7 +52,7 @@ public class Owners {
         this.age = 0;
         this.passportNo = null;
         this.address = null;
-        this.accepted = "false";
+        this.accepted = false;
         this.properties = new ArrayList<>();
     }
 
@@ -77,6 +78,18 @@ public class Owners {
 
     public int getAge() {
         return age;
+    }
+
+    public List<String> getProperties() {
+        return properties;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
     }
 
     public String getPassportNo() {
