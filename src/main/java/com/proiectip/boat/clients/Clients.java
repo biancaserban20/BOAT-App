@@ -30,6 +30,10 @@ public class Clients {
         this.lastName = lastName;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public Accounts getAccount() {
         return account;
     }

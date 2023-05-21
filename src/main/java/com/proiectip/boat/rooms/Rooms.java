@@ -3,6 +3,7 @@ package com.proiectip.boat.rooms;
 import com.proiectip.boat.accounts.Accounts;
 import com.proiectip.boat.bookings.Bookings;
 import com.proiectip.boat.properties.Properties;
+import com.proiectip.boat.reviews.Reviews;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -34,6 +35,9 @@ public class Rooms {
 
     private List<Interval> intervals;
 
+    @DocumentReference
+    private List<Reviews> reviews;
+
     public Rooms() {
     }
 
@@ -45,6 +49,11 @@ public class Rooms {
         this.description = description;
         this.bookings = new ArrayList<>();
         this.intervals = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+    }
+
+    public List<Reviews> getReviews() {
+        return reviews;
     }
 
     public List<Interval> getIntervals() {
