@@ -1,5 +1,6 @@
 package com.proiectip.boat.properties;
 import com.proiectip.boat.owners.Owners;
+import com.proiectip.boat.rooms.Rooms;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -8,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Document(collection = "properties")
 public class Properties {
@@ -15,27 +19,36 @@ public class Properties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String owner;
+    @DocumentReference
+    private Owners owner;
     private String name;
     private String location;
     private String description;
     private int noOfRooms;
     private String typeOfProperty;
 
-    public Properties(String owner,String name, String location, String description, int noOfRooms, String typeOfProperty) {
+    @DocumentReference
+    List<Rooms> rooms;
+
+    public Properties(Owners owner,String name, String location, String description, String typeOfProperty) {
         this.owner = owner;
         this.name = name;
         this.location = location;
         this.description = description;
-        this.noOfRooms = noOfRooms;
+        this.noOfRooms = 0;
         this.typeOfProperty = typeOfProperty;
+        this.rooms = new ArrayList<>();
     }
 
-    public String getOwner() {
+    public List<Rooms> getRooms() {
+        return rooms;
+    }
+
+    public Owners getOwner() {
         return this.owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(Owners owner) {
         this.owner = owner;
     }
 

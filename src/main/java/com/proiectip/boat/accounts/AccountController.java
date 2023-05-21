@@ -2,6 +2,8 @@ package com.proiectip.boat.accounts;
 
 import com.proiectip.boat.admins.AdminRepository;
 import com.proiectip.boat.admins.Admins;
+import com.proiectip.boat.clients.Clients;
+import com.proiectip.boat.clients.ClientsRepository;
 import com.proiectip.boat.owners.OwnerService;
 import com.proiectip.boat.owners.Owners;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class AccountController {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private ClientsRepository clientsRepository;
+
     // for SIGN UP
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Map<String,String>map){
@@ -42,16 +47,24 @@ public class AccountController {
 
         // dacă contul este de tip owner, adăugăm și owner-ul
         if(account.getRole().equals("Owner")) {
-            int age = Integer.parseInt(map.get("age"));
-            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
-                    map.get("passportNo"), map.get("address"));
+
+            //TO DO: DECOMENTEAZA ASTA CAND FACI OWNERUL IN FRONTEND
+
+//            int age = Integer.parseInt(map.get("age"));
+//            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
+//                    map.get("passportNo"), map.get("address"));
+            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), 20,
+                    "1234", "Moreni");
             ownerService.saveOwner(owner);
         }
         else if(account.getRole().equals("Admin")) {
             Admins admin = new Admins(account, account.getFirstName(), account.getLastName());
             adminRepository.save(admin);
         }
-        else if(account.getRole().equals("Client")) {} // de adaugat clientul cand il fac
+        else if(account.getRole().equals("Client")) {
+            Clients client = new Clients(account, account.getFirstName(), account.getLastName());
+            clientsRepository.save(client);
+        } // de adaugat clientul cand il facem
 
         return new ResponseEntity<>("Account added successfully!", HttpStatus.OK);
     }
