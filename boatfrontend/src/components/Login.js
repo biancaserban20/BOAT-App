@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Container, Paper, Button, FormControl, MenuItem, Select, InputLabel, IconButton} from '@material-ui/core';
+import { Container, Paper, Button,IconButton} from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import '../App.css';
 import logo from '../resources/logo.png';
@@ -79,7 +79,7 @@ export default function Login() {
         console.log(result);
         console.log("res is", result.data);
         console.log("res is", result.status);
-        window.name = username;
+        localStorage.setItem("user-name", username);
         const account={username: username, password: password};
         console.log(account);
         axios.get("http://localhost:8080/accounts/getRole", { params: {

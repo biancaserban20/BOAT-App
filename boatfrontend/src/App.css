@@ -47,6 +47,27 @@ body {
   pointer-events: none;
 }
 
+.homebox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5em;
+}
+
+.homeoptionsbox{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 20em;
+}
+
+.welcome-back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 4em;
+}
+
 .App-logo-sign-owner {
   height:60vmin;
   display: flex;

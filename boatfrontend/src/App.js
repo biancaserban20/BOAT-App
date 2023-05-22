@@ -1,19 +1,20 @@
-import { Container } from '@material-ui/core';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route}
     from 'react-router-dom';
 import Home from './components/Home';
 import SignUpClient from './components/SignUpClient';
 import Login from './components/Login';
-import Database from './components/Database';
-import logo from './resources/logo.png';
 import AdminHome from './components/AdminHome';
+import AdminAcceptRequests from './components/AdminAcceptRequests';
+import ClientBookings from './components/ClientBookings';
+import ClientHotels from './components/ClientHotels';
+import AdminDeleteUsers from './components/AdminDeleteUsers';
 import UserHome from './components/ClientHome';
 import OwnerHome from './components/OwnerHome';
 import SignUpOwner from './components/SignUpOwner';
-
-// Save username globally
-window.name = null;
+import ClientProfile from './components/ClientProfile';
+import AdminProfile from './components/AdminProfile';
+import OwnerProfile from './components/OwnerProfile';
 
 function App() {
   const mystyle = {
@@ -36,11 +37,23 @@ function App() {
         <Route exact path='/'  element={<Home/>} />
         <Route path='/sign-up-client' element={<SignUpClient/>}/>
         <Route path='/sign-up-owner' element={<SignUpOwner/>}/>
+
         <Route path='/login' element={<Login/>} />
-        <Route path='/database' element={<Database/>} />
+
         <Route path='/adminhome' element={<AdminHome/>} />
         <Route path='/ownerhome' element={<OwnerHome/>} />
         <Route path='/clienthome' element={<UserHome/>} />
+
+        <Route path='/adminprofile' element={<AdminProfile/>} />
+        <Route path='/ownerprofile' element={<OwnerProfile/>} />
+        <Route path='/clientprofile' element={<ClientProfile/>} />
+
+        <Route path='/admin-delete-users' element={<AdminDeleteUsers/>} />
+        <Route path='/admin-accept-requests' element={<AdminAcceptRequests/>} />
+        
+        <Route path='/client-bookings' element={<ClientBookings/>}/>
+        <Route path='/client-hotels' element={<ClientHotels/>}/>
+        
     </Routes>
     </Router>
   );
