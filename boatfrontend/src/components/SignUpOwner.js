@@ -367,7 +367,7 @@ export default function SignUpOwner() {
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet"></link>
           <div className="loginbox">
             <div>
-            <h1 style={{ fontFamily: 'Poppins', fontWeight:'normal', color:"black"}}>Create anaccount</h1>
+            <h1 style={{ fontFamily: 'Poppins', fontWeight:'normal', color:"black"}}>Create an account</h1>
             </div>
 
             <div>
