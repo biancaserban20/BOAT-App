@@ -15,11 +15,18 @@ const useStyles = makeStyles((theme) => ({
      
     },
   },
+  button: {
+    borderRadius: 15,
+    width: "120px",
+  },
+  paper: {
+    borderRadius: 15,
+  },
 }));
 
 export default function Login() {
     const navigate = useNavigate();
-    const paperStyle={padding:'50px 20px', width:600,margin:"20px auto"}
+    const paperStyle={padding:'20px', width:600,margin:"20px auto"}
     const[password,setPassword]=useState("");
     const[username,setUsername]=useState("");
     const[role,setRole]=useState("");
@@ -101,66 +108,65 @@ export default function Login() {
   };
 
   const mystyle = {
-    float: 'right',
-    padding: "10px",
-  };
-  const mystyle1 = {
     float: 'center',
-    padding: "10px",
-  };
-  const mystyle2 = {
-    float: 'left',
-    padding: "10px",
+    marginLeft: "100px",
+    padding: "100px",
   };
 
   return (
 
-    <Container style={mystyle1}>
-    <div className="App" style={mystyle} >
-        <Paper elevation={3} style={paperStyle}>
-            <h1 style={{color:"black"}}>Login</h1>
+    
+    <Container style={mystyle}>
+    <div className="boxSignLog">
+        <Paper className={classes.paper} elevation={3} style={paperStyle}>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet"></link>
+        <div className="loginbox">
+        <div>
+        <h1 style={{ fontFamily: 'Poppins', fontWeight:'normal', color:"black"}}>Sign in</h1>
+        </div>
 
-    <form className={classes.root} noValidate autoComplete="off">
-
-      <TextField required id="outlined-basic" label="Username" variant="outlined" fullWidth
-      value={username}
-      onChange={handleUsername}
-      />
-      {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
-      {/* <InputLabel>Enter your Password</InputLabel> */}
-      <TextField required id="outlined-basic" label="Password" variant="outlined" fullWidth
-        type={values.showPassword ? "text" : "password"}
-        onChange={handlePassword}
-        value={password}
-        InputProps={{
-          endAdornment:
-          <IconButton
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-          >
-            {values.showPassword ? <Visibility /> : <VisibilityOff />}
-          </IconButton>
-        }}
-        
-      />
-      {error?.submit && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.submit}</h2>}
-
-      <Button variant="contained" color="primary" onClick={handleClick}>
-      Submit
+        <div>
+        <form className={classes.root} noValidate autoComplete="off">
+        <TextField required id="outlined-basic" label="Username" variant="outlined" fullWidth
+        value={username}
+        onChange={handleUsername}
+        />
+        {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
+        {/* <InputLabel>Enter your Password</InputLabel> */}
+        <TextField required id="outlined-basic" label="Password" variant="outlined" fullWidth
+          type={values.showPassword ? "text" : "password"}
+          onChange={handlePassword}
+          value={password}
+          InputProps={{
+            endAdornment:
+            <IconButton
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+            >
+              {values.showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          }}
+        />
+        {error?.submit && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.submit}</h2>}
+        </form>
+        </div>
+        <div>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"></link>
+      <Button variant='contained' className={classes.button} size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#E17E23", color: "white", marginLeft: "10px", textTransform: 'none'}} onClick={handleClick}>
+      Login
       </Button>
-      <div>
-      Don't have an account? 
+      </div>
+      <div size='large' style={{fontSize: 14, fontFamily: 'Poppins'}}>
+      Don't have an account?    
       <a href="./sign-up-client"> Sign up </a>
       </div>
-
-    </form>
-   
-    </Paper>
     </div>
-    <div style={mystyle2}>
-       <img src ={logo} className='App-logo' alt='logo' />
-     </div>
+    </Paper>
 
+    <div className='App-logo'>
+        <img weight="110%" height="110%" src ={logo} alt='logo' />
+    </div>
+    </div>
     </Container>
   );
 }

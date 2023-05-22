@@ -41,7 +41,7 @@ export default function Home() {
         <div className='App-logo'>
             <img weight="110%" height="110%" src ={logo} alt='logo' />
         </div>
-        </div> 
-     </Container>
+    </div> 
+    </Container>
     );
 }

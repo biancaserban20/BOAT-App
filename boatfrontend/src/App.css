@@ -10,11 +10,26 @@ body {
   column-gap: 8em;
 }
 
+.boxSignLog {
+  display: flex;
+  width: 1500px;
+  align-self: stretch;
+  align-items: center;
+  column-gap: 15em;
+}
+
 .box2 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   row-gap: 2em;
+}
+
+.loginbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.3em;
 }
 
 .App {
@@ -27,6 +42,15 @@ body {
 .App-logo {
   height:60vmin;
   display: flex;
+  align-self: stretch;
+  align-items: center;
+  pointer-events: none;
+}
+
+.App-logo-sign-owner {
+  height:60vmin;
+  display: flex;
+  margin-top: 7em;
   align-self: stretch;
   align-items: center;
   pointer-events: none;

@@ -24,11 +24,18 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  button: {
+    borderRadius: 15,
+    width: "130px",
+  },
+  paper: {
+    borderRadius: 15,
+  },
 }));
 
 export default function SignUpOwner() {
   const navigate = useNavigate();
-  const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
+  const paperStyle = { padding: "5px 20px", width: 600, margin: "20px auto" };
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -348,191 +355,194 @@ export default function SignUpOwner() {
   };
 
   const mystyle = {
-    float: "right",
-    padding: "10px",
+    float: 'center',
+    marginLeft: "150px",
   };
-  const mystyle1 = {
-    float: "center",
-    padding: "10px",
-  };
-  const mystyle2 = {
-    float: "left",
-    padding: "10px",
-  };
-
+  
+  
   return (
-    <Container style={mystyle1}>
-      <div className="App" style={mystyle}>
-        <Paper elevation={3} style={paperStyle}>
-          <h1 style={{ color: "black", fontFamily: "Poppins"}}>Create an owner account</h1>
-
-          <form className={classes.root} noValidate autoComplete="off">
-            <FormControl
-              required
-              id="outlined-basic"
-              variant="outlined"
-              fullWidth
-            >
-              <InputLabel>Role</InputLabel>
-              <Select label="Role--" value={role} onChange={handleRole}>
-                <MenuItem value={"Owner"}>Owner</MenuItem>
-                <MenuItem value={"Client"}>Client</MenuItem>
-              </Select>
-            </FormControl>
-            
-            <TextField
-              required
-              id="outlined-basic"
-              label="Username"
-              variant="outlined"
-              fullWidth
-              value={username}
-              onChange={handleUsername}
-              onBlur={isValidUsername}
-            />
-            {error?.username && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.username}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="First Name"
-              variant="outlined"
-              fullWidth
-              value={firstName}
-              onChange={handleFirstName}
-              onBlur={isValidFirstName}
-            />
-            {error?.firstName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.firstName}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Last Name"
-              variant="outlined"
-              fullWidth
-              value={lastName}
-              onChange={handleLastName}
-              onBlur={isValidLastName}
-            />
-            {error?.lastName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.lastName}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Age"
-              variant="outlined"
-              fullWidth
-              value={age}
-              onChange={handleAge}
-              onBlur={isValidAge}
-            />
-            {error?.age && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.age}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Passport Number"
-              variant="outlined"
-              fullWidth
-              value={passportNo}
-              onChange={handlePassportNo}
-              onBlur={isValidPassportNo}
-            />
-            {error?.passportNo && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.passportNo}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Address"
-              variant="outlined"
-              fullWidth
-              value={address}
-              onChange={handleAddress}
-              onBlur={isValidAddress}
-            />
-            {error?.address && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.address}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              value={email}
-              onChange={handleEmail}
-              onBlur={isValidEmail}
-            />
-            {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
-
-            {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
-            {/* <InputLabel>Enter your Password</InputLabel> */}
-            <TextField
-              required
-              id="outlined-basic"
-              label="Password"
-              variant="outlined"
-              fullWidth
-              type={values.showPassword ? "text" : "password"}
-              onChange={handlePassword}
-              onBlur={isValidPassword}
-              value={password}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                ),
-              }}
-            />
-            {error?.password && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.password}</h2>}
-
-            <TextField
-              required
-              id="outlined-basic"
-              label="Confirm Password"
-              variant="outlined"
-              fullWidth
-              type={values.showConfirmPassword ? "text" : "password"}
-              onChange={handleConfirmPassword}
-              onBlur={isValidConfirmPassword}
-              value={confirmPassword}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownConfirmPassword}
-                  >
-                    {values.showConfirmPassword ? (
-                      <Visibility />
-                    ) : (
-                      <VisibilityOff />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
-            {error?.confirmPassword && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.confirmPassword}</h2>}
-
-            <Button variant="contained" color="primary" onClick={handleClick}>
-              Submit
-            </Button>
+    <Container style={mystyle}>
+    <div className="boxSignLog">
+        <Paper className={classes.paper} elevation={3} style={paperStyle}>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet"></link>
+          <div className="loginbox">
             <div>
+            <h1 style={{ fontFamily: 'Poppins', fontWeight:'normal', color:"black"}}>Create anaccount</h1>
+            </div>
+
+            <div>
+            <form className={classes.root} noValidate autoComplete="off">
+              <FormControl
+                required
+                id="outlined-basic"
+                variant="outlined"
+                fullWidth
+              >
+                <InputLabel>Role</InputLabel>
+                <Select label="Role--" value={role} onChange={handleRole}>
+                  <MenuItem value={"Owner"}>Owner</MenuItem>
+                  <MenuItem value={"Client"}>Client</MenuItem>
+                </Select>
+              </FormControl>
+              
+              <TextField
+                required
+                id="outlined-basic"
+                label="Username"
+                variant="outlined"
+                fullWidth
+                value={username}
+                onChange={handleUsername}
+                onBlur={isValidUsername}
+              />
+              {error?.username && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.username}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="First Name"
+                variant="outlined"
+                fullWidth
+                value={firstName}
+                onChange={handleFirstName}
+                onBlur={isValidFirstName}
+              />
+              {error?.firstName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.firstName}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Last Name"
+                variant="outlined"
+                fullWidth
+                value={lastName}
+                onChange={handleLastName}
+                onBlur={isValidLastName}
+              />
+              {error?.lastName && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.lastName}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Age"
+                variant="outlined"
+                fullWidth
+                value={age}
+                onChange={handleAge}
+                onBlur={isValidAge}
+              />
+              {error?.age && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.age}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Passport Number"
+                variant="outlined"
+                fullWidth
+                value={passportNo}
+                onChange={handlePassportNo}
+                onBlur={isValidPassportNo}
+              />
+              {error?.passportNo && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.passportNo}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Address"
+                variant="outlined"
+                fullWidth
+                value={address}
+                onChange={handleAddress}
+                onBlur={isValidAddress}
+              />
+              {error?.address && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.address}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                fullWidth
+                value={email}
+                onChange={handleEmail}
+                onBlur={isValidEmail}
+              />
+              {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
+
+              {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
+              {/* <InputLabel>Enter your Password</InputLabel> */}
+              <TextField
+                required
+                id="outlined-basic"
+                label="Password"
+                variant="outlined"
+                fullWidth
+                type={values.showPassword ? "text" : "password"}
+                onChange={handlePassword}
+                onBlur={isValidPassword}
+                value={password}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {error?.password && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.password}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Confirm Password"
+                variant="outlined"
+                fullWidth
+                type={values.showConfirmPassword ? "text" : "password"}
+                onChange={handleConfirmPassword}
+                onBlur={isValidConfirmPassword}
+                value={confirmPassword}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={handleClickShowConfirmPassword}
+                      onMouseDown={handleMouseDownConfirmPassword}
+                    >
+                      {values.showConfirmPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {error?.confirmPassword && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.confirmPassword}</h2>}
+              </form>
+              </div>
+              
+              <div>
+              <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"></link>
+              <Button variant='contained' className={classes.button} size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#ECB920", color: "white", marginLeft: "10px", textTransform: 'none'}} onClick={handleClick}>
+                Sign up
+              </Button>
+              </div>
+              <div>
               {!error?.submit && error?.err && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.err}</h2>}
               {error?.submit && error?.err === null && <h2 style={{ color: "green", textAlign: "left", fontSize: "small" }}>{error?.submit}</h2>}
-            </div>
-            <div>
+              </div>
+              <div size='large' style={{fontSize: 14, fontFamily: 'Poppins'}}>
               Already have an account? 
               <a href="./login"> Login </a>
             </div>
-          </form>
-        </Paper>
+            </div>
+            </Paper>
+      <div className='App-logo-sign-owner'>
+        <img weight="110%" height="110%" src ={logo} alt='logo' />
       </div>
-      <div style={mystyle2}>
-        <img src={logo} className="App-logo" alt="logo" />
-      </div>
+    </div>
     </Container>
   );
 }
