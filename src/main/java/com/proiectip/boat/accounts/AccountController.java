@@ -80,6 +80,16 @@ public class AccountController {
         return new ResponseEntity<>(accountService.findByUsername(username).getRole(), HttpStatus.OK);
     }
 
+    @GetMapping("/getFirstName")
+    public ResponseEntity<String> firstName(@RequestParam(value = "username") String username){
+        return new ResponseEntity<>(accountService.findByUsername(username).getFirstName(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getLastName")
+    public ResponseEntity<String> lastName(@RequestParam(value = "username") String username){
+        return new ResponseEntity<>(accountService.findByUsername(username).getLastName(), HttpStatus.OK);
+    }
+
     // return all accounts
     @GetMapping("/getAll")
     public ResponseEntity< List<Accounts>> list(){
