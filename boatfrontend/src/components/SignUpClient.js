@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 import logo from "../resources/logo.png";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RegisterUser() {
+export default function SignUpClient() {
+  const navigate = useNavigate();
   const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -209,6 +211,8 @@ export default function RegisterUser() {
 
   const handleRole = (e) => {
     setRole(e.target.value);
+    if(e.target.value === "Owner")
+      navigate("/sign-up-owner");
     setSubmitted(false);
   };
 
@@ -255,7 +259,7 @@ export default function RegisterUser() {
     <Container style={mystyle1}>
       <div className="App" style={mystyle}>
         <Paper elevation={3} style={paperStyle}>
-          <h1 style={{ color: "black", fontFamily: "Poppins"}}>Create an account</h1>
+          <h1 style={{ color: "black", fontFamily: "Poppins"}}>Create a client account</h1>
 
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl
@@ -377,6 +381,10 @@ export default function RegisterUser() {
             <div>
               {!error?.submit && error?.err && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.err}</h2>}
               {error?.submit && error?.err === null && <h2 style={{ color: "green", textAlign: "left", fontSize: "small" }}>{error?.submit}</h2>}
+            </div>
+            <div>
+              Already have an account? 
+              <a href="./login">  Login  </a>
             </div>
           </form>
         </Paper>

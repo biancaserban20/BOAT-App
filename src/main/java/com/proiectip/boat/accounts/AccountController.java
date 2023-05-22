@@ -48,13 +48,9 @@ public class AccountController {
         // dacă contul este de tip owner, adăugăm și owner-ul
         if(account.getRole().equals("Owner")) {
 
-            //TO DO: DECOMENTEAZA ASTA CAND FACI OWNERUL IN FRONTEND
-
-//            int age = Integer.parseInt(map.get("age"));
-//            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
-//                    map.get("passportNo"), map.get("address"));
-            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), 20,
-                    "1234", "Moreni");
+            int age = Integer.parseInt(map.get("age"));
+            Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
+                   map.get("passportNo"), map.get("address"));
             ownerService.saveOwner(owner);
         }
         else if(account.getRole().equals("Admin")) {

@@ -30,7 +30,7 @@ export default function Home() {
         <div className = 'welcome' style={{fontSize: 75, fontFamily: 'Poppins', fontWeight:'bolder', color: "#055169"}}><b>Find your next adventure</b></div>
         <div className = 'description' style={{fontSize: 25, fontFamily: 'Poppins', color: "#017F8D"}}>Search deals on hotels, cruises, and much more</div>
         <div className="App">
-            <a href="./sign-up">
+            <a href="./sign-up-client">
                 <Button variant='contained' className={classes.button} size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#ECB920", color: "white", textTransform: 'none'}}>Sign up</Button>
             </a>
             <a href="./login">

@@ -148,6 +148,10 @@ export default function Login() {
       <Button variant="contained" color="primary" onClick={handleClick}>
       Submit
       </Button>
+      <div>
+      Don't have an account? 
+      <a href="./sign-up-client"> Sign up </a>
+      </div>
 
     </form>
    
