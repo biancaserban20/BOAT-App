@@ -108,11 +108,19 @@ public class AccountController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam(value = "username") String username) {
             if(accountService.findByUsername(username) != null) {
-                // DE MODIFICAT - stergere (trebuie sters ori client ori proprietar)
                 Accounts account = accountService.findByUsername(username);
-                if (account.getRole().equals("Client"))
-                    accountService.deleteAccount(accountService.findByUsername(username));
-                else
+
+                if(account.getRole().equals("Admin"))
+                    return new ResponseEntity<>("Can't delete admins", HttpStatus.BAD_REQUEST);
+
+                //Stergere cont daca e client sau owner
+                accountService.deleteAccount(accountService.findByUsername(username));
+
+                //Decomentat dupa ce e facuta tabela de clienti
+                /*if (account.getRole().equals("Client"))
+                    clientService.deleteAccount(accountService.findByUsername(username);
+                */
+                if(account.getRole().equals("Owner"))
                     ownerService.deleteOwner(ownerService.findByAccount(account));
 
                 return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
