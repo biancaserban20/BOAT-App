@@ -42,6 +42,7 @@ export default function SignUpClient() {
   const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [imageLink, setImageLink] = useState("");
   const [role, setRole] = useState("Client");
   const classes = useStyles();
   const [submitted, setSubmitted] = useState(false);
@@ -180,6 +181,17 @@ export default function SignUpClient() {
     }
   }
 
+  function isValidImageLink() {
+    if (imageLink === "") {
+      setError({ ...error, imageLink: "Image link is required" });
+      return false;
+    } else {
+      setError({ ...error, imageLink: null });
+      setSubmitted(false);
+      return true;
+    }
+  }
+
   // Handling the name change
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -223,6 +235,12 @@ export default function SignUpClient() {
     setSubmitted(false);
   };
 
+  // Handling the email change
+  const handleImageLink = (e) => {
+    setImageLink(e.target.value);
+    setSubmitted(false);
+  };
+
   // Handling the form submission
   const handleClick = (e) => {
     e.preventDefault();
@@ -230,9 +248,9 @@ export default function SignUpClient() {
       setError({...error, err: "Please fill in all the fields."});
       setSubmitted(false);
     } else {
-      const account =  {username, password, email, firstName, lastName, role};
+      const account =  {username, password, email, firstName, lastName, role, imageLink};
       console.log(account);
-      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role, firstName: firstName, lastName:lastName})
+      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role, firstName: firstName, lastName:lastName, image: imageLink})
         .then((result) => {
           console.log(result);
           console.log("res is", result.data);
@@ -329,6 +347,18 @@ export default function SignUpClient() {
               />
               {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
 
+              <TextField
+                required
+                id="outlined-basic"
+                label="Profile Image Link"
+                variant="outlined"
+                fullWidth
+                value={imageLink}
+                onChange={handleImageLink}
+                onBlur={isValidImageLink}
+              />
+              {error?.imageLink && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.imageLink}</h2>}
+
               {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
               {/* <InputLabel>Enter your Password</InputLabel> */}
               <TextField
@@ -380,9 +410,10 @@ export default function SignUpClient() {
                 }}
               />
               {error?.confirmPassword && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.confirmPassword}</h2>}
+              
               </form>
               </div>
-              
+    
               <div>
               <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"></link>
               <Button variant='contained' className={classes.button} size='large' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#ECB920", color: "white", marginLeft: "10px", textTransform: 'none'}} onClick={handleClick}>

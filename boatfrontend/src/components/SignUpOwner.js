@@ -44,6 +44,7 @@ export default function SignUpOwner() {
   const [passportNo, setPassportNo] = useState("");
   const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [imageLink, setImageLink] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("Owner");
   const classes = useStyles();
@@ -269,6 +270,17 @@ export default function SignUpOwner() {
     }
   }
 
+  function isValidImageLink() {
+    if (imageLink === "") {
+      setError({ ...error, imageLink: "Image link is required" });
+      return false;
+    } else {
+      setError({ ...error, imageLink: null });
+      setSubmitted(false);
+      return true;
+    }
+  }
+
   // Handling the name change
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -328,6 +340,13 @@ export default function SignUpOwner() {
     setSubmitted(false);
   };
 
+   // Handling the email change
+   const handleImageLink = (e) => {
+    setImageLink(e.target.value);
+    setSubmitted(false);
+  };
+
+
   // Handling the form submission
   const handleClick = (e) => {
     e.preventDefault();
@@ -337,7 +356,7 @@ export default function SignUpOwner() {
     } else {
       const account =  {username, password, email, firstName, lastName, role, age, address, passportNo};
       console.log(account);
-      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role, firstName: firstName, lastName:lastName, passportNo: passportNo, age: age, address: address})
+      axios.post("http://localhost:8080/accounts/add", {username: username, password: password, email: email, role: role, firstName: firstName, lastName:lastName, passportNo: passportNo, age: age, address: address, image:imageLink})
         .then((result) => {
           console.log(result);
           console.log("res is", result.data);
@@ -468,6 +487,18 @@ export default function SignUpOwner() {
                 onBlur={isValidEmail}
               />
               {error?.email && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.email}</h2>}
+
+              <TextField
+                required
+                id="outlined-basic"
+                label="Profile Image Link"
+                variant="outlined"
+                fullWidth
+                value={imageLink}
+                onChange={handleImageLink}
+                onBlur={isValidImageLink}
+              />
+              {error?.imageLink && <h2 style={{ color: "red", textAlign: "left", fontSize: "small" }}>{error?.imageLink}</h2>}
 
               {/* <FormControl required id="outlined-basic" label="Password" variant="outlined" fullWidth> */}
               {/* <InputLabel>Enter your Password</InputLabel> */}
