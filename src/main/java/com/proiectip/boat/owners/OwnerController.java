@@ -110,7 +110,10 @@ public class OwnerController {
         return new ResponseEntity<>(hotelId, HttpStatus.OK);
     }
 
-    @GetMapping("/getProperties")
+
+
+
+    @PostMapping("/getProperties")
     public ResponseEntity<List<Properties>> getPropertiesByOwnerUsername(@RequestBody Map<String, String> map){
         String username = map.get("username");
         Accounts account = accountService.findByUsername(username);

@@ -154,59 +154,56 @@ public class AccountController {
         return false;
     }
 
-    // FILTRARI
-    @GetMapping("/filterByAnything")
-    public ResponseEntity<List<Accounts>> filterByRole(@RequestBody Map<String, String> map){
+    // FILTRARI CONTURI
+    @PostMapping("/filterByAnything")
+    public ResponseEntity<List<Accounts>> filterByAnything(@RequestBody Map<String, String> map){
         String role = map.get("role");
-        String firstName = map.get("firstName");
-        String lastName = map.get("lastName");
-        List<Accounts> list = accountsRepository.findAll();
-
-        if(list.isEmpty())
-            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-
-        if(role != null)
-        {
-            list.removeIf(account -> !account.getRole().equals(role));
-        }
-        if(firstName != null){
-            list.removeIf(account -> !account.getFirstName().startsWith(lastName));
-        }
-        if(lastName != null){
-            list.removeIf(account -> !account.getLastName().startsWith(lastName));
-        }
-        if(list.isEmpty())
-            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-//        if(username != null)
-//            list.sort(Comparator.comparing(Accounts::getFirstName));
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("/filterByRoleAndSort")
-    public ResponseEntity<List<Accounts>> filterByRoleAndSort(@RequestBody Map<String, String> map){
-        String role = map.get("role");
-        String mail = map.get("email");
+        String search = map.get("search");
+        String mail = map.get("mail");
         String username = map.get("username");
 
         List<Accounts> list = accountsRepository.findAll();
+        List<Accounts> finalList = new ArrayList<>();
+
         if(list.isEmpty())
             return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
 
-        if(role != null)
-        {
+        // Stergere admini din lista
+        list.removeIf(account -> account.getRole().equals("Admin"));
+
+        // Filtrare dupa rol
+        if(role!=null && role.length()>0)
             list.removeIf(account -> !account.getRole().equals(role));
+
+        // Cautare - face match ori pe first name ori pe last name ori pe username
+        if(search!=null && search.length()>0)
+        {
+            for (Accounts account : list)
+                if(account.getFirstName().startsWith(search) || account.getLastName().startsWith(search) || account.getEmail().startsWith(search))
+                    finalList.add(account);
+        }
+        else
+            finalList.addAll(list);
+
+        // sotrare ascendenta sau descendenta dupa mail
+        if(mail!=null && mail.length()>0)
+        {
+            if(mail.equals("Acendent"))
+                finalList.sort(Comparator.comparing(Accounts::getEmail));
+            else
+                finalList.sort(Comparator.comparing(Accounts::getEmail).reversed());
+        }
+        else if(username!=null && username.length()>0)
+        {
+            if(username.equals("Acendent"))
+                finalList.sort(Comparator.comparing(Accounts::getUsername));
+            else
+                finalList.sort(Comparator.comparing(Accounts::getUsername).reversed());
         }
 
-        if(mail != null){
-            list.sort(Comparator.comparing(Accounts::getEmail));
-        }
-        else if(username != null){
-            list.sort(Comparator.comparing(Accounts::getUsername));
-        }
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-
+        if(finalList.isEmpty())
+            return new ResponseEntity<>(finalList, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(finalList, HttpStatus.OK);
     }
 
 }

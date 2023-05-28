@@ -58,8 +58,8 @@ public class AdminController {
     }
 
     @DeleteMapping("/declineRequest")
-    public ResponseEntity<String> declineRequest(@RequestBody Map<String, String> map){
-        Optional<Owners> owner = ownersRepository.findById(map.get("_id"));
+    public ResponseEntity<String> declineRequest(@RequestParam(value = "_id") String id){
+        Optional<Owners> owner = ownersRepository.findById(id);
         if(owner.isPresent()) {
             String idAccount = owner.get().getAccount().getId();
             String idOwner = owner.get().getId();
