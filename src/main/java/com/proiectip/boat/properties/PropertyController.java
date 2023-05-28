@@ -2,13 +2,16 @@ package com.proiectip.boat.properties;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.proiectip.boat.accounts.AccountService;
 import com.proiectip.boat.accounts.Accounts;
+import com.proiectip.boat.accounts.AccountsRepository;
 import com.proiectip.boat.owners.OwnerController;
 import com.proiectip.boat.owners.OwnerService;
 import com.proiectip.boat.owners.Owners;
 import com.proiectip.boat.owners.OwnersRepository;
 import com.proiectip.boat.rooms.Rooms;
+import com.proiectip.boat.rooms.RoomsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +38,18 @@ public class PropertyController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    AccountsRepository accountsRepository;
+
+    @Autowired
+    OwnersRepository ownersRepository;
+
+    @Autowired
+    RoomsRepository roomsRepository;
+
+    @Autowired
+    PropertiesRepository propertiesRepository;
 
     @GetMapping("/listProperties")
     public ResponseEntity<List<Properties>> list(){
@@ -161,6 +176,38 @@ public class PropertyController {
     public ResponseEntity<List<Rooms>> getRooms(@RequestBody Map<String, String> map){
         Properties property = propertyService.findPropertyByName(map.get("name"));
         return new ResponseEntity<>(property.getRooms(), HttpStatus.OK);
+    }
+
+    @PutMapping("/add")
+    public ResponseEntity<String> add(@RequestBody Map<String,String > map ){
+        String username = map.get("username");
+        String hotelName = map.get("hotelName");
+        Accounts account = accountsRepository.findByUsername(username);
+        Owners owner = ownersRepository.findByAccount(account);
+        if(owner == null)
+            return new ResponseEntity("Owner not found!", HttpStatus.BAD_REQUEST);
+
+        String hotelId = null;
+        for( Properties property : owner.getProperties())
+        {
+            if(hotelName.equals(property.getName()))
+                hotelId = property.getId();
+        }
+        double price = Double.parseDouble(map.get("price"));
+        int noPeople = Integer.parseInt(map.get("noPeople"));
+        if(price < 0 || noPeople < 0)
+            return new ResponseEntity("Invalid data!", HttpStatus.BAD_REQUEST);
+
+        Optional<Properties> property = propertiesRepository.findById(hotelId);
+        if(property.isPresent()) {
+            Rooms room = new Rooms(price, noPeople, map.get("type"), map.get("description"));
+            roomsRepository.save(room);
+            property.get().getRooms().add(room);
+            property.get().setNoOfRooms(property.get().getNoOfRooms() + 1);
+            propertiesRepository.save(property.get());
+            return new ResponseEntity("Room added successfully!", HttpStatus.OK);
+        }
+        return new ResponseEntity("Property does not exist!", HttpStatus.BAD_REQUEST);
     }
 
 

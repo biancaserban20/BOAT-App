@@ -1,0 +1,213 @@
+.profile-image {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+}
+
+.property-image {
+    height: 70px;
+    width: 140px;
+    border-radius: 10%;
+    margin-left: 10px;;
+}
+
+.property2-image {
+    height: 80%;
+    width: 400px;
+    border-radius: 5%;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.flex-container {
+    display: flex;
+    width: 90%;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.flex-card {
+    margin-bottom: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.show-details{
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    align-self: flex-end;
+}
+
+.delete-button {
+    width: 120px;
+    height: 32px;
+    background-color: #EF7070;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.rooms-button {
+    width: 120px;
+    height: 32px;
+    background-color: blue;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.bookings-button {
+    width: 150px;
+    height: 75px;
+    background-color: blue;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.flex-details {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.modal-container {
+    background-color: aliceblue;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.modal-title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    color: black;
+}
+
+.modal-buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.cancel-button {
+    width: 120px;
+    height: 32px;
+    background-color: grey;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal {
+    position: absolute;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 50vh;
+}
+
+.search {
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.property-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: blue;
+}
+
+.property-location {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.property-container {
+    display: flex;
+    width: 90%;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.property-flex {
+    margin-bottom: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 50px;
+    display: flex;
+    justify-content:left;
+    align-items: center;
+    background-color: white;
+}
+
+.text {
+    margin-left: 20px;
+}
+
+.property-text-name {
+    font-size: 50px;
+    font-weight: bold;
+    color: #2870B2;   ;
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.property-text-location {
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.room-type {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2870B2;   ;
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.previousPage {
+    position: absolute;
+width: 284px;
+height: 24px;
+left: 1132px;
+top: 756px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 163.35%;
+/* or 33px */
+
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000B72;
+
+margin-bottom: 200px;
+}
