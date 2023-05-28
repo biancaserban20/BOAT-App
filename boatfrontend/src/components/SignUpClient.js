@@ -183,7 +183,7 @@ export default function SignUpClient() {
 
   function isValidImageLink() {
     if (imageLink === "") {
-      setError({ ...error, imageLink: "Image link is required" });
+      setError({ ...error, imageLink: "Image link is required." });
       return false;
     } else {
       setError({ ...error, imageLink: null });
