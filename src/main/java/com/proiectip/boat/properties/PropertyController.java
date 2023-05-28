@@ -73,6 +73,7 @@ public class PropertyController {
     }
 
 
+
     @PostMapping("/filterByAnything")
     public ResponseEntity<List<Properties>> filterByAnything(@RequestBody Map<String, String> map)  {
         String name = map.get("name");

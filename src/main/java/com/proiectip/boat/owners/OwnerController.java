@@ -111,6 +111,8 @@ public class OwnerController {
     }
 
 
+
+
     @PostMapping("/getProperties")
     public ResponseEntity<List<Properties>> getPropertiesByOwnerUsername(@RequestBody Map<String, String> map){
         String username = map.get("username");
