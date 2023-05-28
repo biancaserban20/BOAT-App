@@ -156,7 +156,11 @@ public class PropertyController {
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 
-
+    @PostMapping("/getRooms")
+    public ResponseEntity<List<Rooms>> getRooms(@RequestBody Map<String, String> map){
+        Properties property = propertyService.findPropertyByName(map.get("name"));
+        return new ResponseEntity<>(property.getRooms(), HttpStatus.OK);
+    }
 
 
 }
