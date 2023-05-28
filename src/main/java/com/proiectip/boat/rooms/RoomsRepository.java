@@ -11,5 +11,4 @@ import java.util.List;
 @Repository
 public interface RoomsRepository extends MongoRepository<Rooms, String>{
 
-    List<Rooms> findByPropertyId(String propertyId);
 }

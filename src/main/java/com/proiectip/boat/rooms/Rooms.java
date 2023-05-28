@@ -19,9 +19,6 @@ public class Rooms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @DocumentReference
-    private Properties property;
-
     private double price;
 
     private int noPeople;
@@ -41,8 +38,7 @@ public class Rooms {
     public Rooms() {
     }
 
-    public Rooms(Properties property, double price, int noPeople, String type, String description) {
-        this.property = property;
+    public Rooms(double price, int noPeople, String type, String description) {
         this.price = price;
         this.noPeople = noPeople;
         this.type = type;
@@ -62,14 +58,6 @@ public class Rooms {
 
     public String getId() {
         return id;
-    }
-
-    public Properties getProperty() {
-        return property;
-    }
-
-    public void setProperty(Properties property) {
-        this.property = property;
     }
 
     public int getNoPeople() {

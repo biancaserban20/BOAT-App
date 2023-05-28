@@ -20,4 +20,6 @@ public interface AccountsRepository extends MongoRepository<Accounts, String> {
     Accounts findByUsername(String username);
 
     Accounts findAccountById(String idAccount);
+
+    List<Accounts> findByRole(String role);
 }
