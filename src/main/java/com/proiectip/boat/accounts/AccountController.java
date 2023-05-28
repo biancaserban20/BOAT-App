@@ -155,7 +155,7 @@ public class AccountController {
     }
 
     // FILTRARI
-    @GetMapping("/filterByAnything")
+    @PostMapping("/filterByAnything")
     public ResponseEntity<List<Accounts>> filterByRole(@RequestBody Map<String, String> map){
         String role = map.get("role");
         String firstName = map.get("firstName");
@@ -183,7 +183,7 @@ public class AccountController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/filterByRoleAndSort")
+    @PostMapping("/filterByRoleAndSort")
     public ResponseEntity<List<Accounts>> filterByRoleAndSort(@RequestBody Map<String, String> map){
         String role = map.get("role");
         String mail = map.get("email");
