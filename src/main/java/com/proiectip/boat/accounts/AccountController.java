@@ -154,7 +154,7 @@ public class AccountController {
         return false;
     }
 
-    // FILTRARI
+    // FILTRARI CONTURI
     @PostMapping("/filterByAnything")
     public ResponseEntity<List<Accounts>> filterByAnything(@RequestBody Map<String, String> map){
         String role = map.get("role");
