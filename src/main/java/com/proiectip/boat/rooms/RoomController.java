@@ -57,37 +57,37 @@ public class RoomController {
 //        return new ResponseEntity(roomsRepository.findByPropertyId(map.get("_id")), HttpStatus.OK);
 //    }
 
-    @PutMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Map<String,String > map ){
-        String username = map.get("username");
-        String hotelName = map.get("hotelName");
-        Accounts account = accountsRepository.findByUsername(username);
-        Owners owner = ownersRepository.findByAccount(account);
-        if(owner == null)
-            return new ResponseEntity("Owner not found!", HttpStatus.BAD_REQUEST);
-
-        String hotelId = null;
-        for( Properties property : owner.getProperties())
-        {
-            if(hotelName.equals(property.getName()))
-                hotelId = property.getId();
-        }
-        double price = Double.parseDouble(map.get("price"));
-        int noPeople = Integer.parseInt(map.get("noPeople"));
-        if(price < 0 || noPeople < 0)
-            return new ResponseEntity("Invalid data!", HttpStatus.BAD_REQUEST);
-
-        Optional<Properties> property = propertiesRepository.findById(hotelId);
-        if(property.isPresent()) {
-            Rooms room = new Rooms(price, noPeople, map.get("type"), map.get("description"));
-            roomsRepository.save(room);
-            property.get().getRooms().add(room);
-            property.get().setNoOfRooms(property.get().getNoOfRooms() + 1);
-            propertiesRepository.save(property.get());
-            return new ResponseEntity("Room added successfully!", HttpStatus.OK);
-        }
-        return new ResponseEntity("Property does not exist!", HttpStatus.BAD_REQUEST);
-    }
+//    @PutMapping("/add")
+//    public ResponseEntity<String> add(@RequestBody Map<String,String > map ){
+//        String username = map.get("username");
+//        String hotelName = map.get("hotelName");
+//        Accounts account = accountsRepository.findByUsername(username);
+//        Owners owner = ownersRepository.findByAccount(account);
+//        if(owner == null)
+//            return new ResponseEntity("Owner not found!", HttpStatus.BAD_REQUEST);
+//
+//        String hotelId = null;
+//        for( Properties property : owner.getProperties())
+//        {
+//            if(hotelName.equals(property.getName()))
+//                hotelId = property.getId();
+//        }
+//        double price = Double.parseDouble(map.get("price"));
+//        int noPeople = Integer.parseInt(map.get("noPeople"));
+//        if(price < 0 || noPeople < 0)
+//            return new ResponseEntity("Invalid data!", HttpStatus.BAD_REQUEST);
+//
+//        Optional<Properties> property = propertiesRepository.findById(hotelId);
+//        if(property.isPresent()) {
+//            Rooms room = new Rooms(price, noPeople, map.get("type"), map.get("description"));
+//            roomsRepository.save(room);
+//            property.get().getRooms().add(room);
+//            property.get().setNoOfRooms(property.get().getNoOfRooms() + 1);
+//            propertiesRepository.save(property.get());
+//            return new ResponseEntity("Room added successfully!", HttpStatus.OK);
+//        }
+//        return new ResponseEntity("Property does not exist!", HttpStatus.BAD_REQUEST);
+//    }
 
     @PutMapping("/addBooking")
     public ResponseEntity<String> addBooking(@RequestBody Map<String,String > map ){

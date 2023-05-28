@@ -15,6 +15,11 @@ import SignUpOwner from './components/SignUpOwner';
 import ClientProfile from './components/ClientProfile';
 import AdminProfile from './components/AdminProfile';
 import OwnerProfile from './components/OwnerProfile';
+import OwnerAddProperty from './components/OwnerAddProperty';
+import OwnerAddRoomProperty from './components/OwnerAddRoomProperty';
+import OwnerProperties from './components/OwnerProperties';
+import OwnerPropertyDetails from'./components/OwnerPropertyDetails';
+import ClientHotelDetails from './components/ClientHotelDetails';
 
 function App() {
   const mystyle = {
@@ -53,6 +58,12 @@ function App() {
         
         <Route path='/client-bookings' element={<ClientBookings/>}/>
         <Route path='/client-hotels' element={<ClientHotels/>}/>
+        <Route path='/client-hotel-details' element={<ClientHotelDetails/>}/>
+
+        <Route path='/owner-add-property' element={<OwnerAddProperty/>}/>
+        <Route path='/owner-add-room-property' element={<OwnerAddRoomProperty/>}/>
+        <Route path='/owner-properties' element={<OwnerProperties/>}/>
+        <Route path='/owner-property-details' element={<OwnerPropertyDetails/>}/>
         
     </Routes>
     </Router>
