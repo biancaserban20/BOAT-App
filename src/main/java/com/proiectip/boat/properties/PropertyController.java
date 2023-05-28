@@ -72,6 +72,7 @@ public class PropertyController {
         return new ResponseEntity<>("Property deleted successfully", HttpStatus.OK);
     }
 
+
     @PostMapping("/filterByAnything")
     public ResponseEntity<List<Properties>> filterByAnything(@RequestBody Map<String, String> map)  {
         String name = map.get("name");
