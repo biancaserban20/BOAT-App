@@ -1,17 +1,23 @@
 package com.proiectip.boat.properties;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.proiectip.boat.accounts.AccountService;
+import com.proiectip.boat.accounts.Accounts;
 import com.proiectip.boat.owners.OwnerController;
 import com.proiectip.boat.owners.OwnerService;
 import com.proiectip.boat.owners.Owners;
 import com.proiectip.boat.owners.OwnersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/properties")
@@ -21,11 +27,17 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @Autowired
-    private OwnersRepository ownersRepository;
+    private PropertiesRepository propertyRepository;
 
-    @GetMapping("/getAll")
+    @Autowired
+    private OwnerService ownerService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @GetMapping("/listProperties")
     public ResponseEntity<List<Properties>> list(){
-        return new ResponseEntity<>(propertyService.getAllProperties(), HttpStatus.OK);
+        return new ResponseEntity<>(propertyRepository.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/getByName")

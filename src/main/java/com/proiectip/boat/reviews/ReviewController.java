@@ -43,27 +43,27 @@ public class ReviewController {
         return new ResponseEntity(reviewsRepository.findByRoomId(idRoom), HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Map<String, String> map){
-        String reviewMessage = map.get("review");
-        int noOfStars = Integer.parseInt(map.get("noOfStars"));
-        if(noOfStars < 0 || noOfStars > 5)
-            return new ResponseEntity("Invalid data!", HttpStatus.BAD_REQUEST);
-        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdformat.parse(map.get("date"));
-        } catch (ParseException e) {
-            return new ResponseEntity("Invalid date!", HttpStatus.BAD_REQUEST);
-        }
-        Bookings booking = bookingsRepository.findById(map.get("booking")).get();
-        if(booking == null)
-            return new ResponseEntity("Invalid booking!", HttpStatus.BAD_REQUEST);
-        Reviews review = new Reviews(booking.getClient(), booking, booking.getRoom(),reviewMessage, noOfStars, date);
-        reviewsRepository.save(review);
-        booking.getRoom().getReviews().add(review);
-        roomsRepository.save(booking.getRoom());
-        return new ResponseEntity("Review added!", HttpStatus.OK);
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<String> add(@RequestBody Map<String, String> map){
+//        String reviewMessage = map.get("review");
+//        int noOfStars = Integer.parseInt(map.get("noOfStars"));
+//        if(noOfStars < 0 || noOfStars > 5)
+//            return new ResponseEntity("Invalid data!", HttpStatus.BAD_REQUEST);
+//        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = null;
+//        try {
+//            date = sdformat.parse(map.get("date"));
+//        } catch (ParseException e) {
+//            return new ResponseEntity("Invalid date!", HttpStatus.BAD_REQUEST);
+//        }
+//        Bookings booking = bookingsRepository.findById(map.get("booking")).get();
+//        if(booking == null)
+//            return new ResponseEntity("Invalid booking!", HttpStatus.BAD_REQUEST);
+//        Reviews review = new Reviews(booking.getClient(), booking, booking.getRoom(),reviewMessage, noOfStars, date);
+//        reviewsRepository.save(review);
+//        booking.getRoom().getReviews().add(review);
+//        roomsRepository.save(booking.getRoom());
+//        return new ResponseEntity("Review added!", HttpStatus.OK);
+//    }
 
 }

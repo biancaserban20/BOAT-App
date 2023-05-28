@@ -19,16 +19,13 @@ public class Bookings {
     @DocumentReference
     private Clients client;
 
-    @DocumentReference
-    private Rooms room;
-
     private Interval interval;
 
     public Bookings() {
     }
-    public Bookings(Clients client, Rooms room, Interval interval) {
+
+    public Bookings(Clients client, Interval interval) {
         this.client = client;
-        this.room = room;
         this.interval = interval;
     }
 
@@ -38,14 +35,6 @@ public class Bookings {
 
     public void setClient(Clients client) {
         this.client = client;
-    }
-
-    public Rooms getRoom() {
-        return room;
-    }
-
-    public void setRoom(Rooms room) {
-        this.room = room;
     }
 
     public Interval getInterval() {

@@ -22,7 +22,9 @@ public class Owners {
     @DocumentReference
     private Accounts account;
     private String idAdmin;
-    private List<String> properties;
+
+    @DocumentReference
+    private List<Properties> properties;
     private String firstName;
     private String lastName;
     private int age;
@@ -80,7 +82,7 @@ public class Owners {
         return age;
     }
 
-    public List<String> getProperties() {
+    public List<Properties> getProperties() {
         return properties;
     }
 

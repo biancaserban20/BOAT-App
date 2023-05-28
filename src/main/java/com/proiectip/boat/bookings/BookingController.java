@@ -34,18 +34,18 @@ public class BookingController {
         return new ResponseEntity(roomsRepository.findById(map.get("_id")), HttpStatus.OK);
     }
 
-    @PutMapping("/delete")
-    public ResponseEntity<String> delete(@RequestBody Map<String, String> map){
-        String idBooking = map.get("_id");
-        Bookings booking = bookingsRepository.findById(idBooking).get();
-        if(booking == null)
-            return new ResponseEntity("Booking not found!", HttpStatus.BAD_REQUEST);
-        Rooms room = roomsRepository.findById(booking.getRoom().getId()).get();
-        room.getBookings().remove(booking);
-        Interval interval = booking.getInterval();
-        room.getIntervals().remove(interval);
-        roomsRepository.save(room);
-        bookingsRepository.deleteById(idBooking);
-        return new ResponseEntity("Booking deleted successfully!", HttpStatus.OK);
-    }
+//    @PutMapping("/delete")
+//    public ResponseEntity<String> delete(@RequestBody Map<String, String> map){
+//        String idBooking = map.get("_id");
+//        Bookings booking = bookingsRepository.findById(idBooking).get();
+//        if(booking == null)
+//            return new ResponseEntity("Booking not found!", HttpStatus.BAD_REQUEST);
+//        Rooms room = roomsRepository.findById(booking.getRoom().getId()).get();
+//        room.getBookings().remove(booking);
+//        Interval interval = booking.getInterval();
+//        room.getIntervals().remove(interval);
+//        roomsRepository.save(room);
+//        bookingsRepository.deleteById(idBooking);
+//        return new ResponseEntity("Booking deleted successfully!", HttpStatus.OK);
+//    }
 }

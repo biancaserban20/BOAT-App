@@ -1,16 +1,12 @@
 package com.proiectip.boat.properties;
-import com.proiectip.boat.owners.Owners;
 import com.proiectip.boat.rooms.Rooms;
-import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Document(collection = "properties")
@@ -19,8 +15,6 @@ public class Properties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    @DocumentReference
-    private Owners owner;
     private String name;
     private String location;
     private String description;
@@ -30,8 +24,7 @@ public class Properties {
     @DocumentReference
     List<Rooms> rooms;
 
-    public Properties(Owners owner,String name, String location, String description, String typeOfProperty) {
-        this.owner = owner;
+    public Properties(String name, String location, String description, String typeOfProperty) {
         this.name = name;
         this.location = location;
         this.description = description;
@@ -42,14 +35,6 @@ public class Properties {
 
     public List<Rooms> getRooms() {
         return rooms;
-    }
-
-    public Owners getOwner() {
-        return this.owner;
-    }
-
-    public void setOwner(Owners owner) {
-        this.owner = owner;
     }
 
     public String getId() {

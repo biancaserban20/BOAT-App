@@ -26,11 +26,6 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public int no_of_owners() {
-        return (int) ownersRepository.count();
-    }
-
-    @Override
     public Owners findByAccount(Accounts account) {
         return ownersRepository.findByAccount(account);
     }

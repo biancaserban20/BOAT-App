@@ -9,9 +9,6 @@ public interface OwnerService {
     public List<Owners> getAllOwners();
 
     void deleteOwner(Owners owner);
-    int no_of_owners();
 
     Owners findByAccount(Accounts account);
-
-//    Owners findById(String idOwner);
 }
