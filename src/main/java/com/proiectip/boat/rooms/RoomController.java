@@ -101,7 +101,7 @@ public class RoomController {
             throw new RuntimeException(e);
         }
         Interval interval = new Interval(startDate, endDate);
-        if(interval.checkInterval() == false)
+        if(!interval.checkInterval())
             return new ResponseEntity("Invalid date interval!", HttpStatus.BAD_REQUEST);
         Rooms room = roomsRepository.findById(map.get("room")).get();
         Clients client = clientsRepository.findById(map.get("client")).get();
@@ -116,4 +116,5 @@ public class RoomController {
         }
         return new ResponseEntity("Date interval can't be satisfied!", HttpStatus.BAD_REQUEST);
     }
+
 }
