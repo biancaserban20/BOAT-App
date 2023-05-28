@@ -21,16 +21,27 @@ public class Properties {
     private int noOfRooms;
     private String typeOfProperty;
 
+    private String image;
+
     @DocumentReference
     List<Rooms> rooms;
 
-    public Properties(String name, String location, String description, String typeOfProperty) {
+    public Properties(String name, String location, String description, String typeOfProperty, String image) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.noOfRooms = 0;
         this.typeOfProperty = typeOfProperty;
+        this.image = image;
         this.rooms = new ArrayList<>();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public List<Rooms> getRooms() {
@@ -77,7 +88,7 @@ public class Properties {
         this.noOfRooms = noOfRooms;
     }
 
-    public String getTypeOfProperty() {
+    public String getType() {
         return typeOfProperty;
     }
 

@@ -15,20 +15,29 @@ public class Accounts {
     private String password;
     private String email;
     private String role;
+    private String image;
 
     // private String phone;
 
-    public Accounts(String username, String password, String email, String role, String firstName, String lastName) {
-        this.id = id;
+    public Accounts(String username, String password, String email, String role, String firstName, String lastName, String image) {
         this.username = username;
         this.lastName = lastName;
         this.firstName = firstName;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.image = image;
     }
 
     public Accounts() {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getId() {

@@ -68,7 +68,8 @@ public class OwnerController {
         String location = map.get("location");
         String description = map.get("description");
         String typeOfProperty = map.get("typeOfProperty");
-        Properties property = new Properties(name, location, description, typeOfProperty);
+        String image = map.get("image");
+        Properties property = new Properties(name, location, description, typeOfProperty, image);
 
         propertiesRepository.save(property);
         owner.getProperties().add(property);
@@ -107,5 +108,16 @@ public class OwnerController {
                 hotelId = prop.getId();
         }
         return new ResponseEntity<>(hotelId, HttpStatus.OK);
+    }
+
+    @GetMapping("/getProperties")
+    public ResponseEntity<List<Properties>> getPropertiesByOwnerUsername(@RequestBody Map<String, String> map){
+        String username = map.get("username");
+        Accounts account = accountService.findByUsername(username);
+        Owners owner = ownerService.findByAccount(account);
+        if(owner == null)
+            return new ResponseEntity("Owner not found!", HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(owner.getProperties(), HttpStatus.OK);
     }
 }

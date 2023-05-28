@@ -34,7 +34,7 @@ public class Interval {
         }
         return true;
     }
-    static int checkDisponibility(List<Interval> intervals, Interval myInterval) {
+    static public int checkDisponibility(List<Interval> intervals, Interval myInterval) {
         if(intervals.size() == 0) {
             return 0;
         }

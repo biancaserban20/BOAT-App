@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,20 +24,24 @@ public class AccountController {
     private AccountService accountService;
 
     @Autowired
+    private AccountsRepository accountsRepository;
+
+    @Autowired
+    private ClientsRepository clientsRepository;
+
+    @Autowired
     private OwnerService ownerService;
 
     @Autowired
     private AdminRepository adminRepository;
 
-    @Autowired
-    private ClientsRepository clientsRepository;
 
     // for SIGN UP
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Map<String,String>map){
         // daca exista email-ul sau username-ul in baza de date, nu se mai adauga
         Accounts account = new Accounts(map.get("username"), map.get("password"), map.get("email"),
-                    map.get("role"), map.get("firstName"), map.get("lastName"));
+                    map.get("role"), map.get("firstName"), map.get("lastName"), map.get("image"));
         if(checkEmail(account))
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
 
@@ -60,7 +66,7 @@ public class AccountController {
         else if(account.getRole().equals("Client")) {
             Clients client = new Clients(account, account.getFirstName(), account.getLastName());
             clientsRepository.save(client);
-        } // de adaugat clientul cand il facem
+        }
 
         return new ResponseEntity<>("Account added successfully!", HttpStatus.OK);
     }
@@ -69,10 +75,17 @@ public class AccountController {
     @GetMapping("/checkEmailAndPassword")
     public ResponseEntity<String> check(@RequestParam(value = "username") String username,
                                         @RequestParam(value = "password") String password){
-        if (accountService.findByUsernameAndPassword(username, password) != null)
-            return new ResponseEntity<>("Account found!", HttpStatus.OK);
+        Accounts account = accountService.findByUsernameAndPassword(username, password);
+        if (account == null)
+            return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
+        if(account.getRole().equals("Owner")){
+            Owners owner = ownerService.findByAccount(account);
+            if(!owner.isAccepted())
+                return new ResponseEntity<>("Owner not approved!", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Account found!", HttpStatus.OK);
     }
 
     @GetMapping("/getRole")
@@ -113,16 +126,15 @@ public class AccountController {
                 if(account.getRole().equals("Admin"))
                     return new ResponseEntity<>("Can't delete admins", HttpStatus.BAD_REQUEST);
 
-                //Stergere cont daca e client sau owner
-                accountService.deleteAccount(accountService.findByUsername(username));
-
                 //Decomentat dupa ce e facuta tabela de clienti
-                /*if (account.getRole().equals("Client"))
-                    clientService.deleteAccount(accountService.findByUsername(username);
-                */
+                if (account.getRole().equals("Client"))
+                   clientsRepository.delete(clientsRepository.findByAccount(account));
+
                 if(account.getRole().equals("Owner"))
                     ownerService.deleteOwner(ownerService.findByAccount(account));
 
+                //Stergere cont daca e client sau owner
+                accountService.deleteAccount(accountService.findByUsername(username));
                 return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
             }
             return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
@@ -141,5 +153,61 @@ public class AccountController {
         }
         return false;
     }
+
+    // FILTRARI
+    @GetMapping("/filterByAnything")
+    public ResponseEntity<List<Accounts>> filterByRole(@RequestBody Map<String, String> map){
+        String role = map.get("role");
+        String firstName = map.get("firstName");
+        String lastName = map.get("lastName");
+        List<Accounts> list = accountsRepository.findAll();
+
+        if(list.isEmpty())
+            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+
+        if(role != null)
+        {
+            list.removeIf(account -> !account.getRole().equals(role));
+        }
+        if(firstName != null){
+            list.removeIf(account -> !account.getFirstName().startsWith(lastName));
+        }
+        if(lastName != null){
+            list.removeIf(account -> !account.getLastName().startsWith(lastName));
+        }
+        if(list.isEmpty())
+            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+//        if(username != null)
+//            list.sort(Comparator.comparing(Accounts::getFirstName));
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/filterByRoleAndSort")
+    public ResponseEntity<List<Accounts>> filterByRoleAndSort(@RequestBody Map<String, String> map){
+        String role = map.get("role");
+        String mail = map.get("email");
+        String username = map.get("username");
+
+        List<Accounts> list = accountsRepository.findAll();
+        if(list.isEmpty())
+            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+
+        if(role != null)
+        {
+            list.removeIf(account -> !account.getRole().equals(role));
+        }
+
+        if(mail != null){
+            list.sort(Comparator.comparing(Accounts::getEmail));
+        }
+        else if(username != null){
+            list.sort(Comparator.comparing(Accounts::getUsername));
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+
+    }
+
 }
 
