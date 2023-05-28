@@ -41,7 +41,7 @@ public class AccountController {
     public ResponseEntity<String> add(@RequestBody Map<String,String>map){
         // daca exista email-ul sau username-ul in baza de date, nu se mai adauga
         Accounts account = new Accounts(map.get("username"), map.get("password"), map.get("email"),
-                    map.get("role"), map.get("firstName"), map.get("lastName"), map.get("image"));
+                map.get("role"), map.get("firstName"), map.get("lastName"), map.get("image"));
         if(checkEmail(account))
             return new ResponseEntity<>("Email already exists!", HttpStatus.BAD_REQUEST);
 
@@ -56,7 +56,7 @@ public class AccountController {
 
             int age = Integer.parseInt(map.get("age"));
             Owners owner = new Owners(account, null, account.getFirstName(), account.getLastName(), age,
-                   map.get("passportNo"), map.get("address"));
+                    map.get("passportNo"), map.get("address"));
             ownerService.saveOwner(owner);
         }
         else if(account.getRole().equals("Admin")) {
@@ -120,24 +120,24 @@ public class AccountController {
     // delete account
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam(value = "username") String username) {
-            if(accountService.findByUsername(username) != null) {
-                Accounts account = accountService.findByUsername(username);
+        if(accountService.findByUsername(username) != null) {
+            Accounts account = accountService.findByUsername(username);
 
-                if(account.getRole().equals("Admin"))
-                    return new ResponseEntity<>("Can't delete admins", HttpStatus.BAD_REQUEST);
+            if(account.getRole().equals("Admin"))
+                return new ResponseEntity<>("Can't delete admins", HttpStatus.BAD_REQUEST);
 
-                //Decomentat dupa ce e facuta tabela de clienti
-                if (account.getRole().equals("Client"))
-                   clientsRepository.delete(clientsRepository.findByAccount(account));
+            //Decomentat dupa ce e facuta tabela de clienti
+            if (account.getRole().equals("Client"))
+                clientsRepository.delete(clientsRepository.findByAccount(account));
 
-                if(account.getRole().equals("Owner"))
-                    ownerService.deleteOwner(ownerService.findByAccount(account));
+            if(account.getRole().equals("Owner"))
+                ownerService.deleteOwner(ownerService.findByAccount(account));
 
-                //Stergere cont daca e client sau owner
-                accountService.deleteAccount(accountService.findByUsername(username));
-                return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
-            }
-            return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
+            //Stergere cont daca e client sau owner
+            accountService.deleteAccount(accountService.findByUsername(username));
+            return new ResponseEntity<>("Account deleted successfully!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Account not found!", HttpStatus.BAD_REQUEST);
     }
 
     // change password
@@ -148,13 +148,13 @@ public class AccountController {
         if(accountService.findByUsername(username) != null){
             Accounts account = accountService.findByUsername(username);
             account.setPassword(password);
-           // accountService.saveAccount(account); => nu stiu daca trebuie save, de testat la change password
+            // accountService.saveAccount(account); => nu stiu daca trebuie save, de testat la change password
             return true;
         }
         return false;
     }
 
-    // FILTRARI CONTURI
+    // FILTRARI
     @PostMapping("/filterByAnything")
     public ResponseEntity<List<Accounts>> filterByAnything(@RequestBody Map<String, String> map){
         String role = map.get("role");
@@ -207,4 +207,3 @@ public class AccountController {
     }
 
 }
-
