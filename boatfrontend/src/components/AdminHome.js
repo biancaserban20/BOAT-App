@@ -61,7 +61,7 @@ export default function AdminHome() {
 
   const handleCloseUserMenu = (event) => {
     if(event.target.innerText === 'Profile')
-      navigate("/ownerprofile");
+      navigate("/adminprofile");
     if(event.target.innerText === 'Logout')
       {
         localStorage.setItem("user-name", "");
