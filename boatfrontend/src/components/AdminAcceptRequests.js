@@ -16,9 +16,11 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Search Hotels', 'My Bookings'];
+const pages = ['Verify Requests', 'Remove Users'];
 const settings = ['Profile','Logout'];
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,7 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function AdminAcceptRequests() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
+  const [imageLink, setImageLink] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState(localStorage.getItem("user-name"));
   const paperStyle={padding:"60px",width:1500,margin:"20px auto"}
@@ -42,15 +46,28 @@ export default function AdminAcceptRequests() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const[requests,setRequests]=useState([]);
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleCloseNavMenu = (e) => {
+    setAnchorElNav(e.currentTarget);
+    if(e.currentTarget.value === 'Verify Requests')
+      navigate("/admin-accept-requests");
+    if(e.currentTarget.value === 'Remove Users')
+      navigate("/admin-delete-users");
+    
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
+    if(event.target.innerText === 'Profile')
+      navigate("/ownerprofile");
+    if(event.target.innerText === 'Logout')
+      {
+        localStorage.setItem("user-name", "");
+        navigate("/");
+      }
     setAnchorElUser(null);
   };
 
@@ -100,47 +117,43 @@ export default function AdminAcceptRequests() {
         if (error.response)
           console.log("error is", error.response.data);
       });
+    axios.get("http://localhost:8080/accounts/getImageLink", { params: {
+        username: username
+        },})
+        .then((result) => {
+          console.log(result);
+          console.log("res is", result.data);
+          console.log("res is", result.status);
+          setImageLink(result.data);
+        })
+        .catch(error => {
+          if (error.response)
+            console.log("error is", error.response.data);
+        });
   };
 
   return(
     <div>
-      <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
+    <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
       <Container maxWidth="50px">
         <Toolbar disableGutters>
-          <img weight="90px" height="90px" src ={logo} alt='logo' />
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          <img weight="90px" height="90px" src ={logo} alt='logo' />  
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                value = {page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+               {page}
+              </Button>
+            ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar src={imageLink}/>
               </IconButton>
             </Tooltip>
             <Menu
