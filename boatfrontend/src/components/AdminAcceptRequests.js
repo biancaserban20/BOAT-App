@@ -48,7 +48,7 @@ export default function AdminAcceptRequests() {
   const [username, setUsername] = useState(localStorage.getItem("user-name"));
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
+  
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setInput(lowerCase);
@@ -61,7 +61,7 @@ export default function AdminAcceptRequests() {
 
   const handleCloseUserMenu = (event) => {
     if(event.target.innerText === 'Profile')
-      navigate("/ownerprofile");
+      navigate("/adminprofile");
     if(event.target.innerText === 'Logout')
       {
         localStorage.setItem("user-name", "");
@@ -243,7 +243,6 @@ export default function AdminAcceptRequests() {
 
   return (
     <div>
-      <div>
       <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
       <Container maxWidth="50px">
         <Toolbar disableGutters>
@@ -292,8 +291,6 @@ export default function AdminAcceptRequests() {
         </Toolbar>
       </Container>
     </AppBar>
-      </div>
-    <div>
     <Container>
       <AcceptModal/>
       <DeclineModal/>
@@ -346,8 +343,7 @@ export default function AdminAcceptRequests() {
           </div>
         ))}
       </div>
-    </Container>
-    </div>
+      </Container>
     </div>
   );
 }

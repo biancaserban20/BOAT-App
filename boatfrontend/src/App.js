@@ -20,6 +20,8 @@ import OwnerAddRoomProperty from './components/OwnerAddRoomProperty';
 import OwnerProperties from './components/OwnerProperties';
 import OwnerPropertyDetails from'./components/OwnerPropertyDetails';
 import ClientHotelDetails from './components/ClientHotelDetails';
+import ClientDetails from './components/ClientDetails';
+import OwnerDetails from './components/OwnerDetails';
 
 function App() {
   const mystyle = {
@@ -65,6 +67,8 @@ function App() {
         <Route path='/owner-properties' element={<OwnerProperties/>}/>
         <Route path='/owner-property-details' element={<OwnerPropertyDetails/>}/>
         
+        <Route path='/client-details' element={<ClientDetails/>}/>
+        <Route path='/owner-details' element={<OwnerDetails/>}/>
     </Routes>
     </Router>
   );
