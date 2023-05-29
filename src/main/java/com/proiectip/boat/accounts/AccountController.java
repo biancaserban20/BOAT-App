@@ -108,6 +108,11 @@ public class AccountController {
         return new ResponseEntity<>(accountService.findByUsername(username).getImage(), HttpStatus.OK);
     }
 
+    @GetMapping("/getEmail")
+    public ResponseEntity<String> email(@RequestParam(value = "username") String username){
+        return new ResponseEntity<>(accountService.findByUsername(username).getEmail(), HttpStatus.OK);
+    }
+
     // return all accounts
     @GetMapping("/getAll")
     public ResponseEntity< List<Accounts>> list(){
