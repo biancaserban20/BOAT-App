@@ -58,6 +58,18 @@
     cursor: pointer;
 }
 
+.accept-button {
+    width: 120px;
+    height: 32px;
+    background-color: #70B880;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .rooms-button {
     width: 120px;
     height: 32px;
