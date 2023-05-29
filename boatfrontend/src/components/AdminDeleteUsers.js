@@ -312,8 +312,10 @@ export default function AdminDeleteUsers() {
             <button
               type="button"
               onClick={() => {
+                localStorage.setItem("user-name-client", user.username);
                 if (user.role === "Owner") {
                   navigate("/owner-details");
+                  
                 } else {
                   navigate("/client-details");
                 }
