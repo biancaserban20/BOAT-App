@@ -140,7 +140,7 @@ export default function AdminHome() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={imageLink}/>
+                <Avatar src={imageLink} sx={{ width: 60, height: 60 }}/>
               </IconButton>
             </Tooltip>
             <Menu
