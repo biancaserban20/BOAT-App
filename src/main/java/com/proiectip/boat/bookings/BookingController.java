@@ -1,6 +1,7 @@
 package com.proiectip.boat.bookings;
 
 import com.proiectip.boat.clients.Clients;
+import com.proiectip.boat.clients.ClientsRepository;
 import com.proiectip.boat.owners.Owners;
 import com.proiectip.boat.rooms.Interval;
 import com.proiectip.boat.rooms.Rooms;
@@ -25,14 +26,25 @@ public class BookingController {
     @Autowired
     RoomsRepository roomsRepository;
 
+    @Autowired
+    ClientsRepository clientsRepository;
+
     @GetMapping("/list")
     public ResponseEntity<List<Bookings>> list(){
         return new ResponseEntity(bookingsRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/listBookingsByRoomId")
+    @PostMapping("/listBookingsByRoomId")
     public ResponseEntity<List<Bookings>> listBookingsByRoomId(@RequestBody Map<String, String > map){
-        return new ResponseEntity(roomsRepository.findById(map.get("_id")), HttpStatus.OK);
+        Rooms room = roomsRepository.findById(map.get("_id")).get();
+        return new ResponseEntity(room.getBookings(), HttpStatus.OK);
+    }
+
+    @PostMapping("/listBookingsByClientId")
+    public ResponseEntity<List<Bookings>> listBookingsByClientId(@RequestBody Map<String, String > map){
+        List<Bookings> list = bookingsRepository.findAll();
+        list.removeIf(booking -> !booking.getClientId().equals(map.get("_id")));
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
     public BookingsRepository getBookingsRepository() {
