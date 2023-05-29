@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Search Properties', 'My Bookings'];
+const pages = ['Verify Requests', 'Remove Users'];
 const settings = ['Profile','Logout'];
 
 const useStyles = makeStyles((theme) => ({
@@ -47,15 +47,16 @@ export default function AdminProfile() {
 
   const handleCloseNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
-    if(e.currentTarget.value === 'Search Properties')
-      navigate("/client-hotels");
-    if(e.currentTarget.value === 'My Bookings')
-      navigate("/client-bookings");
+    if(e.currentTarget.value === 'Verify Requests')
+      navigate("/admin-accept-requests");
+    if(e.currentTarget.value === 'Remove Users')
+      navigate("/admin-delete-users");
+    
   };
 
   const handleCloseUserMenu = (event) => {
     if(event.target.innerText === 'Profile')
-      navigate("/clientprofile");
+      navigate("/adminprofile");
     if(event.target.innerText === 'Logout')
       {
         localStorage.setItem("user-name", "");
@@ -63,6 +64,7 @@ export default function AdminProfile() {
       }
     setAnchorElUser(null);
   };
+
 
   useEffect(() => {
     getInfo();

@@ -10,6 +10,13 @@ body {
   column-gap: 8em;
 }
 
+.client-profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2em;
+}
+
 .boxSignLog {
   display: flex;
   width: 1500px;
