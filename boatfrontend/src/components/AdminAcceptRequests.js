@@ -48,7 +48,7 @@ export default function AdminAcceptRequests() {
   const [username, setUsername] = useState(localStorage.getItem("user-name"));
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  
+
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setInput(lowerCase);
@@ -242,7 +242,8 @@ export default function AdminAcceptRequests() {
   };
 
   return (
-    <Container>
+    <div>
+      <div>
       <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
       <Container maxWidth="50px">
         <Toolbar disableGutters>
@@ -291,6 +292,9 @@ export default function AdminAcceptRequests() {
         </Toolbar>
       </Container>
     </AppBar>
+      </div>
+    <div>
+    <Container>
       <AcceptModal/>
       <DeclineModal/>
       <h1>Pending Requests</h1>
@@ -343,5 +347,7 @@ export default function AdminAcceptRequests() {
         ))}
       </div>
     </Container>
+    </div>
+    </div>
   );
 }
