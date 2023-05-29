@@ -98,7 +98,7 @@ public class PropertyController {
         String endDate = map.get("endDate");
         String price = map.get("price");
         int maxPrice = -1;
-        if(price != null)
+        if(price != null && price.length()>0)
             maxPrice = Integer.parseInt(price);
 
         SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
@@ -127,7 +127,7 @@ public class PropertyController {
                 }
             }
         }
-        if(startDate != null && endDate != null) {
+        if(startDate != null && endDate != null && startDate.length()>0 && endDate.length()>0) {
             try {
                 myInterval = new Interval(sdformat.parse(startDate), sdformat.parse(endDate));
             } catch (ParseException e) {
@@ -152,17 +152,17 @@ public class PropertyController {
                 }
             }
         }
-        if(name != null){
+        if(name != null && name.length()>0){
             properties.removeIf(property -> !property.getName().startsWith(name));
             if (properties.isEmpty())
                 return new ResponseEntity<>(properties, HttpStatus.OK);
         }
-        if(location != null){
+        if(location != null && location.length()>0){
             properties.removeIf(property -> !property.getLocation().startsWith(location));
             if (properties.isEmpty())
                 return new ResponseEntity<>(properties, HttpStatus.OK);
         }
-        if(type != null){
+        if(type != null && type.length()>0){
             properties.removeIf(property -> !property.getType().startsWith(type));
             if (properties.isEmpty())
                 return new ResponseEntity<>(properties, HttpStatus.OK);
