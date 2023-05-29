@@ -308,7 +308,7 @@ export default function AdminAcceptRequests() {
         {filteredData.map((user) => (
           <div className="flex-card" key={user.username}>
             <img
-              src="https://www.sandiegosymphony.org/media/uploads/blog/cool-mozart.jpg"
+              src={user.account.image}
               className="profile-image"
               alt="Profile"
             ></img>
