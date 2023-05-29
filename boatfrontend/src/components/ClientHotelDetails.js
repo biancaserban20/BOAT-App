@@ -1,9 +1,18 @@
-import React from "react";
-import {useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Paper, Button} from '@material-ui/core';
+// import React from "react";
+
+// export default function OwnerPropertyDetails() {
+//   return <h1>Hello owner property {localStorage.getItem("property-name")} details</h1>;
+// }
+
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button, Container, Paper } from "@material-ui/core";
+import { Modal } from "@material-ui/core";
+import { TextField, InputLabel, InputAdornment } from "@mui/material";
+import axios from "axios";
+import "./styles.css";
+import { useNavigate } from "react-router-dom";
 import logo from '../resources/logo.png';
-import axios from 'axios';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,34 +20,30 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
 
 const pages = ['Search Properties', 'My Bookings'];
 const settings = ['Profile','Logout'];
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    borderRadius: 50,
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
   },
-  button: {
-    borderRadius: 50,
-    width: "600px",
-    height: "400px",
-},
 }));
 
-export default function ClientHotelDetails() {
-  const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+export default function OwnerPropertyDetails() {
+  const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
+  const adminStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
+  const [rooms, setRooms] = useState([]);
+  const classes = useStyles();
+  const [input, setInput] = useState("");
   const [imageLink, setImageLink] = useState("");
   const [username, setUsername] = useState(localStorage.getItem("user-name"));
-  const paperStyle={padding:"60px",width:1500,margin:"20px auto"}
-  const classes = useStyles();
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,7 +51,7 @@ export default function ClientHotelDetails() {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+  
   const handleCloseNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
     if(e.currentTarget.value === 'Search Properties')
@@ -72,34 +77,6 @@ export default function ClientHotelDetails() {
 
   // Get info
   const getInfo = () => {
-      if(username === "")
-        navigate("/");
-      axios.get("http://localhost:8080/accounts/getFirstName", { params: {
-        username: username
-        },})
-        .then((result) => {
-          console.log(result);
-          console.log("res is", result.data);
-          console.log("res is", result.status);
-          setFirstName(result.data);
-        })
-        .catch(error => {
-          if (error.response)
-            console.log("error is", error.response.data);
-        });
-      axios.get("http://localhost:8080/accounts/getLastName", { params: {
-          username: username
-          },})
-          .then((result) => {
-            console.log(result);
-            console.log("res is", result.data);
-            console.log("res is", result.status);
-            setLastName(result.data);
-          })
-          .catch(error => {
-            if (error.response)
-              console.log("error is", error.response.data);
-          });
       axios.get("http://localhost:8080/accounts/getImageLink", { params: {
         username: username
         },})
@@ -114,7 +91,28 @@ export default function ClientHotelDetails() {
             console.log("error is", error.response.data);
         });
     };
-  return(
+
+  async function getRooms() {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/properties/getRooms",
+        {
+          name: localStorage.getItem("hotel-name"),
+        }
+      );
+      setRooms(response.data);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  console.log(localStorage.getItem("property-image"));
+
+  return (
     <div>
       <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
       <Container maxWidth="50px">
@@ -164,9 +162,36 @@ export default function ClientHotelDetails() {
         </Toolbar>
       </Container>
     </AppBar>
+    <Container>
+      <div className="property-container">
+        <div className="property-flex">
+          <img src={localStorage.getItem("property-image")} className="property2-image"></img>
+          <div className="text">
+            <p className="property-text-name"> {localStorage.getItem("property-name")}</p>
+            <p className="property-text-location">{localStorage.getItem("property-location")}</p>
+            <p className="property-text-description">{localStorage.getItem("property-description")}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex-container">
+        {rooms.map((room) => (
+          <div className="flex-card">
+            <div className="flex-details">
+              <p className="room-type"> {room.type}</p>
+              <p className="room-description">{room.description}</p>
+              <p className="room-price">Price: {room.price}</p>
+              <p className="room-noPeople">No. of people: {room.noPeople}</p>
+            </div>
+            <button
+              type="button"
+              className="bookings-button"
+            >
+              Book
+            </button>
+          </div>
+        ))}
+      </div>
+    </Container>
     </div>
-
   );
-  
-  //return <h1>Hello client {localStorage.getItem("user-name")} from poperty {localStorage.getItem("property-name")} </h1>;
 }

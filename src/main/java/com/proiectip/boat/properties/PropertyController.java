@@ -56,7 +56,7 @@ public class PropertyController {
         return new ResponseEntity<>(propertyRepository.findAll(),HttpStatus.OK);
     }
 
-    @GetMapping("/getByName")
+    @PostMapping("/getByName")
     public ResponseEntity<Properties> getByName(@RequestBody Map<String, String> map){
         Properties property = propertyService.findPropertyByName(map.get("name"));
         return new ResponseEntity<>(property, HttpStatus.OK);
@@ -89,8 +89,8 @@ public class PropertyController {
 
 
 
-    @PostMapping("/filterByAnything")
-    public ResponseEntity<List<Properties>> filterByAnything(@RequestBody Map<String, String> map)  {
+    @PostMapping("/filterByAnythingProperties")
+    public ResponseEntity<List<Properties>> filterByAnythingProperties(@RequestBody Map<String, String> map)  {
         String name = map.get("name");
         String location = map.get("location");
         String type = map.get("type");
@@ -103,7 +103,6 @@ public class PropertyController {
 
         SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
         Interval myInterval;
-        //String capacity = map.get("noOfRooms");
 
         List<Properties> properties = propertyRepository.findAll();
         if(properties.isEmpty()){
@@ -127,6 +126,7 @@ public class PropertyController {
                 }
             }
         }
+        /*
         if(startDate != null && endDate != null && startDate.length()>0 && endDate.length()>0) {
             try {
                 myInterval = new Interval(sdformat.parse(startDate), sdformat.parse(endDate));
@@ -152,6 +152,7 @@ public class PropertyController {
                 }
             }
         }
+        */
         if(name != null && name.length()>0){
             properties.removeIf(property -> !property.getName().startsWith(name));
             if (properties.isEmpty())
