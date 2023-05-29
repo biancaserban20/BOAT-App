@@ -58,14 +58,29 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  column-gap: 20em;
+  column-gap: 15em;
 }
 
 .welcome-back {
   display: flex;
   flex-direction: row;
   align-items: center;
-  column-gap: 4em;
+  column-gap: 6em;
+}
+
+.welcome-backtext
+{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  row-gap: 1em;
+}
+
+.hotel-buton
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo-sign-owner {

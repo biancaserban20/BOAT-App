@@ -29,6 +29,10 @@ public class Bookings {
         this.interval = interval;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public Clients getClient() {
         return client;
     }
@@ -43,5 +47,14 @@ public class Bookings {
 
     public void setInterval(Interval interval) {
         this.interval = interval;
+    }
+
+    @Override
+    public String toString() {
+        return "Bookings{" +
+                "id='" + id + '\'' +
+                ", client=" + client +
+                ", interval=" + interval +
+                '}';
     }
 }

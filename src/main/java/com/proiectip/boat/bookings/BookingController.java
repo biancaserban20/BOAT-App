@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/bookings")
@@ -34,18 +35,33 @@ public class BookingController {
         return new ResponseEntity(roomsRepository.findById(map.get("_id")), HttpStatus.OK);
     }
 
-//    @PutMapping("/delete")
-//    public ResponseEntity<String> delete(@RequestBody Map<String, String> map){
-//        String idBooking = map.get("_id");
-//        Bookings booking = bookingsRepository.findById(idBooking).get();
-//        if(booking == null)
-//            return new ResponseEntity("Booking not found!", HttpStatus.BAD_REQUEST);
-//        Rooms room = roomsRepository.findById(booking.getRoom().getId()).get();
-//        room.getBookings().remove(booking);
-//        Interval interval = booking.getInterval();
-//        room.getIntervals().remove(interval);
-//        roomsRepository.save(room);
-//        bookingsRepository.deleteById(idBooking);
-//        return new ResponseEntity("Booking deleted successfully!", HttpStatus.OK);
-//    }
+    public BookingsRepository getBookingsRepository() {
+        return bookingsRepository;
+    }
+
+    public void setBookingsRepository(BookingsRepository bookingsRepository) {
+        this.bookingsRepository = bookingsRepository;
+    }
+
+    public RoomsRepository getRoomsRepository() {
+        return roomsRepository;
+    }
+
+    public void setRoomsRepository(RoomsRepository roomsRepository) {
+        this.roomsRepository = roomsRepository;
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete(@RequestParam(value = "_id") String id, @RequestParam(value = "roomId") String roomId){
+        Optional<Bookings> booking = bookingsRepository.findById(id);
+        if(booking.isEmpty())
+            return new ResponseEntity("Booking not found!", HttpStatus.BAD_REQUEST);
+        Rooms room = roomsRepository.findById(roomId).get();
+        room.getBookings().removeIf(myBooking -> booking.get().getId().equals(myBooking.getId()));
+        Interval interval = booking.get().getInterval();
+        room.getIntervals().removeIf(myInterval -> myInterval.equals(interval));
+        roomsRepository.save(room);
+        bookingsRepository.deleteById(id);
+        return new ResponseEntity("Booking deleted successfully!", HttpStatus.OK);
+    }
 }

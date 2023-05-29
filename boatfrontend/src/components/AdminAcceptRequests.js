@@ -1,225 +1,210 @@
-import React from 'react';
-import {useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Paper, Button} from '@material-ui/core';
-import welcomebackPic from '../resources/welcome.png';
-import logo from '../resources/logo.png'
+import { Container, Paper, Modal, Button, TextField } from '@material-ui/core';
 import axios from 'axios';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-
-const pages = ['Search Hotels', 'My Bookings'];
-const settings = ['Profile','Logout'];
-
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    borderRadius: 50,
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
-  button: {
-    borderRadius: 50,
-    width: "500px",
-    height: "350px",
-},
+  paperStyle: {
+    padding: '50px 20px',
+    width: 600,
+    margin: '20px auto',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+  },
 }));
 
-
 export default function AdminAcceptRequests() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState(localStorage.getItem("user-name"));
-  const paperStyle={padding:"60px",width:1500,margin:"20px auto"}
   const classes = useStyles();
+  const [users, setUsers] = useState([]);
+  const [input, setInput] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
+  const [clickedUserName, setClickedUserName] = useState("");
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const[requests,setRequests]=useState([]);
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const inputHandler = (e) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setInput(lowerCase);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  function acceptOwner(request) {
-    console.log(request);
-    axios.put("http://localhost:8080/admins/acceptRequest", {_id: request.id})
+  async function declineOwner(ownerid) {
+    console.log(ownerid);
+    try {
+      const result = await axios.delete(
+        "http://localhost:8080/admins/declineRequest",
+        {
+          params: { _id: ownerid },
+        }
+      );
+      console.log(result);
+      console.log("res is", result.data);
+      console.log("res is", result.status);
+      fetch("http://localhost:8080/admins/getRequests")
+        .then((res) => res.json())
         .then((result) => {
-          console.log(result);
-          console.log("res is", result.data);
-          console.log("res is", result.status);
-        })
-        .catch(error => {
-          if (error.response)
-            console.log("error is", error.response.data);
+          setUsers(result);
         });
+    } catch (error) {
+      if (error.response) console.log("error is", error.response.data);
+    }
+  }
+  
+  async function acceptOwner(ownerid) {
+    console.log(ownerid);
+    try {
+      const result = await axios.put(
+        "http://localhost:8080/admins/acceptRequest",
+        {
+          _id: ownerid
+        }
+      );
+      console.log(result);
+      console.log("res is", result.data);
+      console.log("res is", result.status);
+      fetch("http://localhost:8080/admins/getRequests")
+        .then((res) => res.json())
+        .then((result) => {
+          setUsers(result);
+        });
+    } catch (error) {
+      if (error.response) console.log("error is", error.response.data);
+    }
   }
 
-  function declineOwner(request) {
-    console.log(request);
-    axios.delete("http://localhost:8080/admins/declineRequest", { params: {
-      _id: request.id
-    },})
-        .then((result) => {
-          console.log(result);
-          console.log("res is", result.data);
-          console.log("res is", result.status);
-        })
-        .catch(error => {
-          if (error.response)
-            console.log("error is", error.response.data);
-        });
-  }
 
   useEffect(() => {
-    getInfo();
+    fetch("http://localhost:8080/admins/getRequests")
+      .then((res) => res.json())
+      .then((result) => {
+        setUsers(result);
+      });
   }, []);
 
-  const getInfo = () => {
-    axios.get("http://localhost:8080/admins/getRequests", { })
-      .then((result) => {
-        console.log(result);
-        console.log("res is", result.data);
-        console.log("res is", result.status);
-        setRequests(result.data);
-      })
-      .catch(error => {
-        if (error.response)
-          console.log("error is", error.response.data);
-      });
+  const filteredData = users.filter((el) => {
+    if (input === '') {
+      return el;
+    } else {
+      return el.username.toLowerCase().includes(input);
+    }
+  });
+
+  const AcceptModal = () => {
+    const handleAccept = async () => {
+      await acceptOwner(clickedUserName);
+      setModalOpen(false);
+    };
+
+    const handleCancel = () => {
+      setModalOpen(false);
+    };
+
+    return (
+      <Modal open={modalOpen} onClose={handleCancel}>
+        <Paper className={classes.paperStyle}>
+          <h2>Confirm Accept</h2>
+          <p>Are you sure you want to give ownership permission to this user?</p>
+          <div className={classes.buttonContainer}>
+            <Button onClick={handleAccept} color="secondary">
+              Accept
+            </Button>
+            <Button onClick={handleCancel} color="primary">
+              Cancel
+            </Button>
+          </div>
+        </Paper>
+      </Modal>
+    );
   };
 
-  return(
-    <div>
-      <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
-      <Container maxWidth="50px">
-        <Toolbar disableGutters>
-          <img weight="90px" height="90px" src ={logo} alt='logo' />
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-          </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+  const DeclineModal = () => {
+    const handleDecline = async () => {
+      await declineOwner(clickedUserName);
+      setModalOpen1(false);
+    };
 
-          
-    <div className="homebox">
-      <div>
-        {/* <Paper className={classes.paper} elevation={3} style={paperStyle}>
-          <div className="welcome-back">
-            <div>
-            <img weight="120px" height="120px" src ={welcomebackPic} alt='welcome' />
-            </div>
-            <div size='large' style={{fontSize: 30, fontFamily: 'Poppins', backgroundColor: "white", textTransform: 'none'}}>
-            Welcome back {firstName} {lastName} !
-            </div>  
+    const handleCancel = () => {
+      setModalOpen1(false);
+    };
+
+    return (
+      <Modal open={modalOpen1} onClose={handleCancel}>
+        <Paper className={classes.paperStyle}>
+          <h2>Confirm Decline</h2>
+          <p>Are you sure you want to decline ownership permission to this user?</p>
+          <div className={classes.buttonContainer}>
+            <Button onClick={handleDecline} color="secondary">
+              Decline
+            </Button>
+            <Button onClick={handleCancel} color="primary">
+              Cancel
+            </Button>
           </div>
-        </Paper> */}
-
-        {requests.map(request=>(
-        // <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={request.id}>
-        //  {/* Id:{request.id}<br/> */}
-        //  Name:{request.firstName}<br/>
-        //  {/* Password:{user.password}<br/> */}
-        //  {/* Email:{user.email}<br/> */}
-        //  {/* Role:{user.role}<br/> */}
-         
-        //  {/* <button type="button" onClick={() => deleteUser(user.username)}>
-        //     Delete account
-        //  </button> */}
-        
-        // </Paper>
-        <Paper className={classes.paper} elevation={3} style={paperStyle} key={request.id}>
-          <div>
-          <img weight="120px" height="120px" src ={welcomebackPic} alt='welcome'/>
-          </div>
-          <div size='large' style={{fontSize: 30, fontFamily: 'Poppins', backgroundColor: "white", textTransform: 'none'}}>
-          <div>First Name:{request.firstName}</div>
-          <div>Last Name:{request.lastName}</div>
-          </div>
-          <Button variant='contained' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#9ACD32", color: "white", marginLeft: "10px", textTransform: 'none'}} onClick={() => acceptOwner(request)}>
-          Accept
-          </Button>
-
-          <Button variant='contained' style={{fontSize: 20, fontFamily: 'Poppins', backgroundColor: "#B22222", color: "white", marginLeft: "10px", textTransform: 'none'}} onClick={() => declineOwner(request)}>
-          Decline
-          </Button>
         </Paper>
-      ))
-    }
+      </Modal>
+    );
+  };
+
+  return (
+    <Container>
+      <AcceptModal/>
+      <DeclineModal/>
+      <h1>Pending Requests</h1>
+      <div className="search">
+        <TextField
+          id="outlined-basic"
+          onChange={inputHandler}
+          variant="outlined"
+          fullWidth
+          label="Search"
+        />
       </div>
-    </div>
-  </div>
+      <div className="flex-container">
+        {filteredData.map((user) => (
+          <div className="flex-card" key={user.username}>
+            <img
+              src="https://www.sandiegosymphony.org/media/uploads/blog/cool-mozart.jpg"
+              className="profile-image"
+              alt="Profile"
+            ></img>
+            <div className="flex-details">
+              <p>First Name: {user.firstName}</p>
+              <p>Last Name: {user.lastName}</p>
+              <p>Address: {user.address}</p>
+            </div>
+            {/* <a href="#" className="show-details">
+              <p>Show more details</p>
+            </a> */}
+            <button
+              type="button"
+              onClick={() => {
+                setModalOpen(true);
+                setClickedUserName(user.id);
+              }}
+              className="accept-button"
+            >
+              Accept
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setModalOpen1(true);
+                setClickedUserName(user.id);
+              }}
+              className="delete-button"
+            >
+              Decline
+            </button>
+          </div>
+        ))}
+      </div>
+    </Container>
   );
-
-
-  return <h1>Hello admin {localStorage.getItem("user-name")}</h1>;
 }

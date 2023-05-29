@@ -2,6 +2,7 @@ package com.proiectip.boat.rooms;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Interval {
     private Date startDate;
@@ -60,5 +61,21 @@ public class Interval {
 
         }
         return -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Interval)) return false;
+        Interval interval = (Interval) o;
+        return Objects.equals(getStartDate(), interval.getStartDate()) && Objects.equals(getEndDate(), interval.getEndDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Interval{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

@@ -95,4 +95,18 @@ public class Rooms {
     public List<Bookings> getBookings() {
         return bookings;
     }
+
+    @Override
+    public String toString() {
+        return "Rooms{" +
+                "id='" + id + '\'' +
+                ", price=" + price +
+                ", noPeople=" + noPeople +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", bookings=" + bookings +
+                ", intervals=" + intervals +
+                ", reviews=" + reviews +
+                '}';
+    }
 }

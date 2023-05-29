@@ -103,6 +103,11 @@ public class AccountController {
         return new ResponseEntity<>(accountService.findByUsername(username).getLastName(), HttpStatus.OK);
     }
 
+    @GetMapping("/getImageLink")
+    public ResponseEntity<String> imageLink(@RequestParam(value = "username") String username){
+        return new ResponseEntity<>(accountService.findByUsername(username).getImage(), HttpStatus.OK);
+    }
+
     // return all accounts
     @GetMapping("/getAll")
     public ResponseEntity< List<Accounts>> list(){
@@ -126,7 +131,6 @@ public class AccountController {
             if(account.getRole().equals("Admin"))
                 return new ResponseEntity<>("Can't delete admins", HttpStatus.BAD_REQUEST);
 
-            //Decomentat dupa ce e facuta tabela de clienti
             if (account.getRole().equals("Client"))
                 clientsRepository.delete(clientsRepository.findByAccount(account));
 
