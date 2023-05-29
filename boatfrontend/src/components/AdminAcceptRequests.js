@@ -175,8 +175,8 @@ export default function AdminAcceptRequests() {
               alt="Profile"
             ></img>
             <div className="flex-details">
-              <p>First Name: {user.firstName}</p>
-              <p>Last Name: {user.lastName}</p>
+              <p>Name: {user.firstName} {user.lastName}</p>
+              <p>Username: {user.account.username}</p>
               <p>Address: {user.address}</p>
             </div>
             {/* <a href="#" className="show-details">

@@ -37,6 +37,10 @@ public class Bookings {
         return client;
     }
 
+    public String getClientId() {
+        return client.getId();
+    }
+
     public void setClient(Clients client) {
         this.client = client;
     }
