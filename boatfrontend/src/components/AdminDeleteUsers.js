@@ -14,6 +14,19 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import logo from '../resources/logo.png';
+
+const pages = ['Verify Requests', 'Remove Users'];
+const settings = ['Profile','Logout'];
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -41,12 +54,62 @@ export default function AdminDeleteUsers() {
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedEmail, setSelectedEmail] = useState("");
   const [selectedUsername, setSelectedUsername] = useState("");
+  const [imageLink, setImageLink] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("user-name"));
   const navigate = useNavigate();
 
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setInput(lowerCase);
   };
+
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = (e) => {
+    setAnchorElNav(e.currentTarget);
+    if(e.currentTarget.value === 'Verify Requests')
+      navigate("/admin-accept-requests");
+    if(e.currentTarget.value === 'Remove Users')
+      navigate("/admin-delete-users");
+    
+  };
+
+  const handleCloseUserMenu = (event) => {
+    if(event.target.innerText === 'Profile')
+      navigate("/adminprofile");
+    if(event.target.innerText === 'Logout')
+      {
+        localStorage.setItem("user-name", "");
+        navigate("/");
+      }
+    setAnchorElUser(null);
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  // Get info
+  const getInfo = () => {
+      axios.get("http://localhost:8080/accounts/getImageLink", { params: {
+        username: username
+        },})
+        .then((result) => {
+          console.log(result);
+          console.log("res is", result.data);
+          console.log("res is", result.status);
+          setImageLink(result.data);
+        })
+        .catch(error => {
+          if (error.response)
+            console.log("error is", error.response.data);
+        });
+    };
 
   async function deleteUser(user) {
     console.log(user);
@@ -139,9 +202,58 @@ export default function AdminDeleteUsers() {
   };
 
   return (
+    <div>
+    <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
+      <Container maxWidth="50px">
+        <Toolbar disableGutters>
+          <img weight="90px" height="90px" src ={logo} alt='logo' />  
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                value = {page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+               {page}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar src={imageLink} sx={{ width: 60, height: 60 }}/>
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
     <Container>
       <ConfirmationModal />
-      <h1>Home</h1>
+      <h1>Remove Users</h1>
       <div className="search">
         <TextField
           id="outlined-basic"
@@ -224,5 +336,6 @@ export default function AdminDeleteUsers() {
         ))}
       </div>
     </Container>
+    </div>
   );
 }

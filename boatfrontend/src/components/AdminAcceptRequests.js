@@ -61,7 +61,7 @@ export default function AdminAcceptRequests() {
 
   const handleCloseUserMenu = (event) => {
     if(event.target.innerText === 'Profile')
-      navigate("/ownerprofile");
+      navigate("/adminprofile");
     if(event.target.innerText === 'Logout')
       {
         localStorage.setItem("user-name", "");
@@ -242,7 +242,7 @@ export default function AdminAcceptRequests() {
   };
 
   return (
-    <Container>
+    <div>
       <AppBar position="static" style={{backgroundColor: '#7DDCF0'}}>
       <Container maxWidth="50px">
         <Toolbar disableGutters>
@@ -291,6 +291,7 @@ export default function AdminAcceptRequests() {
         </Toolbar>
       </Container>
     </AppBar>
+    <Container>
       <AcceptModal/>
       <DeclineModal/>
       <h1>Pending Requests</h1>
@@ -342,6 +343,7 @@ export default function AdminAcceptRequests() {
           </div>
         ))}
       </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
